@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<article class="media content-section">
+    <img class = "rounded-circle article-img" src="{{url_for ('static', filename= 'profile_pics/' + post.author.image_file)}}">
+    <div class="media-body">
+        <div class="article-metadata">
+        <a class="mr-2" href="#">{{ post.author.username }}</a>
+        <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+        </div>
+        <h2 class= "article-title">{{ post.title }}</h2>
+        <p class="article-content">{{ post.content }}</p>
+        {% if post.mask %}
+        <p class="article-content">You can click <a href="/viz/{{post.id}}">here</a> to better visualise the maps or directly click on the images to download them.</p>
+        <a href="{{url_for ('static', filename= 'post_picture/' + post.mask)}}" download="prediction_mask">
+            <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.mask)}}">
+        </a>
+        <a href="{{url_for ('static', filename= 'post_picture/' + post.msi)}}" download="input_msi">
+            <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.msi)}}">
+        </a>
+        <a href="{{url_for ('static', filename= 'post_picture/' + post.rgb)}}" download="input_rgb">
+            <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.rgb)}}">
+        </a>
+
+        {% endif %}
+    </div>
+    <a class="btn btn-primary" href="{{ url_for('home')}}"> Back </a>
+    <a class="btn btn-primary" href="/post/{{post.id}}/update"> Update </a>
+    <a class="btn btn-primary" href="/delete/{{post.id}}"> Delete </a>
+</article>
+
+{% endblock content %}
