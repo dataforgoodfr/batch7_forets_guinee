@@ -24,6 +24,10 @@ class Post(db.Model):
     msi = db.Column(db.String(20), nullable=False)
     rgb = db.Column(db.String(20), nullable=False)
     mask = db.Column(db.String(20), nullable=False)
+    mask_msi = db.Column(db.String(20), nullable=False)
+    mask_rgb = db.Column(db.String(20), nullable=False)
+    msi_rgb = db.Column(db.String(20), nullable=False)
+    all_imgs = db.Column(db.String(20), nullable=False)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
 

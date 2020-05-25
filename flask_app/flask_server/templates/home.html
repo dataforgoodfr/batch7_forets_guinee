@@ -12,6 +12,8 @@
             <p class="article-content">{{ post.content }}</p>
             {% if post.rgb %}
             <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.rgb)}}">
+            <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.msi)}}">
+            <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.mask)}}">
             {% endif %}
         </div>
     </article>

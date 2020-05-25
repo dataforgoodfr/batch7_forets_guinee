@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_server.models import User
 
@@ -55,7 +55,9 @@ class UpdateAccountForm(FlaskForm):
                 raise ValidationError('That email is taken. Please choose a different one')
 
 class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    picture = FileField('Picture', validators=[FileAllowed(['jpg', 'png'])])
+    title = StringField('Title of prediction', validators=[DataRequired()])
+    content = TextAreaField('Description of prediction', validators=[DataRequired()])
+    picture = FileField('File (.tif) containing area information to be predicted', validators=[FileAllowed(['tif'])])
+    country = SelectField('Country of prediction', choices = [('Guinea', 'Guinea'), ('Congo', 'Congo')], validators=[DataRequired()])
+    nb_channels = IntegerField('Number of channels in file', validators=[DataRequired()])
     submit= SubmitField('Post')

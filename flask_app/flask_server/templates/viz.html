@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- magnifier css -->
+<link rel="stylesheet" type="text/css" href="{{url_for ('static', filename= 'magnifier.css')}}">
+
+<!-- magnifier js -->
+<script type="text/javascript" src="{{url_for ('static', filename= 'Event.js')}}"></script>
+<script type="text/javascript" src="{{url_for ('static', filename= 'Magnifier.js')}}"></script>
+<script type="text/javascript">
+var evt = new Event();
+var m = new Magnifier(evt);
+{% if zoom %}
+var zoom = {{zoom}};
+{% endif %}
+window.onload = function() {
+  var evt = new Event();
+  var m = new Magnifier(evt);
+  m.attach({
+      thumb: '#thumb-inside-1',
+      large: "{{img_path}}",
+      mode: 'inside',
+      zoom: zoom,
+      zoomable: true
+  });
+};
+</script>
+
+<article class="media content-section">
+    <div class="list-group">
+      <img class = "rounded-circle article-img" src="{{url_for ('static', filename= 'profile_pics/' + post.author.image_file)}}">
+      <br/>
+      <a href="/viz/{{post.id}}/zoom/{{zoom+1}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">+</a>
+      <a href="/viz/{{post.id}}/zoom/{{zoom-1}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">-</a>
+      <br/>
+      <br/>
+
+      <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}" style="width:70px;height:50px;" class="{{mask_style}} m-0 list-group-item list-group-item-action">Pred</a>
+      <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}" style="width:70px;height:50px;" class="{{msi_style}} m-0 list-group-item list-group-item-action">MSI</a>
+      <a href="/viz/{{post.id}}/img/{{img+4}}/zoom/{{zoom}}" style="width:70px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+
+    </div>
+    <div class="media-body">
+        <div class="article-metadata">
+        <a class="mr-2" href="#">{{ post.author.username }}</a>
+        <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+        </div>
+        <h2 class= "article-title">{{ post.title }}</h2>
+        <div>
+          <div class="magnifier-thumb-wrapper">
+              <img class="img-fluid" alt="Responsive image" id="thumb-inside-1" src="{{img_path}}" data-mode="inside" data-zoomable="true">
+          <div id="thumb-inside-lens" class="magnifier-lens hidden" style="width: 67px; height: 52px; background: url(&quot;{{img_path}}&quot;) -33px 0px no-repeat scroll; left: 42px; top: -18px;">
+            <img class="img-fluid" alt="Responsive image" src="{{img_path}}" id="thumb-inside-large-1" class="magnifier-large hidden">
+          </div>
+        </div>
+    </div>
+    <a class="btn btn-primary" href="/post/{{post.id}}"> Back </a>
+</article>
+
+{% endblock content %}

@@ -8,6 +8,8 @@ import torch.nn as nn
 import pandas as pd
 import numpy as np
 from PIL import Image
+import pickle
+import time
 
 ######################### Fonctions auxiliaires #########################
 
@@ -31,7 +33,12 @@ def convert_image_rgb(img):
             new_image[i,j,0] = int(img[7,i,j]*255)
             new_image[i,j,1] = int(img[9,i,j]*255)
             new_image[i,j,2] = int(img[3,i,j]*255)
-    return Image.fromarray(np.uint8(new_image))
+    return Image.fromarray(np.uint8(new_image), 'RGB')
+
+def mix_images(im1, img2):
+    im2 = img2.resize(im1.size)
+    mask = Image.new("L", im1.size, 128)
+    return Image.composite(im1, im2, mask)
 
 ######################### Modèle UNET #########################
 
@@ -58,11 +65,13 @@ class ConvBatchNorm(nn.Module):
     self.conv = nn.Conv2d(in_channels, out_channels,
                           kernel_size=3, padding=1)
     self.norm = nn.BatchNorm2d(out_channels)
+    self.dropout = nn.Dropout(p=0.5)
     self.activation = get_activation(activation)
 
   def forward(self, x):
     out = self.conv(x)
     out = self.norm(out)
+    out = self.dropout(out)
     return self.activation(out)
 
 class DownBlock(nn.Module):
@@ -92,7 +101,7 @@ class UpBlock(nn.Module):
     return self.nConvs(x)
 
 class UNet(nn.Module):
-  def __init__(self, n_channels, n_classes, size, batch):
+  def __init__(self, n_channels, n_classes, batch):
     '''
     n_channels : number of channels of the input.
                     By default 4, because we have 4 modalities
@@ -109,9 +118,9 @@ class UNet(nn.Module):
     self.up1 = UpBlock(512+256, 256, nb_Conv=2, out_padding=0)
     self.up2 = UpBlock(256+128, 128, nb_Conv=2, out_padding = (0,1))
     self.up3 = UpBlock(128+64, 64, nb_Conv=2, out_padding=(0,1))
+    self.outd = nn.Conv2d(64, n_channels, kernel_size=3, stride=1, padding=1)
     self.outc = nn.Linear(11, n_classes)
     self.last_activation = get_activation('Sigmoid')
-    self.size = size
     self.batch = batch
 
   def forward(self, x):
@@ -122,19 +131,21 @@ class UNet(nn.Module):
     x = self.up1(x4, x3)
     x = self.up2(x, x2)
     x = self.up3(x, x1)
-    #logits = self.last_activation(self.outc(x.view(self.size*self.size*self.batch, 64*11)))
+    x = self.outd(x)
     logits = self.last_activation(self.outc(x))
     return logits
 
-def predict(img):
-
+def predict(file_path):
+    ds1, img =  raster.read(file_path, bands='all')
     size = 64
     batch_size = 1
-    model = UNet(n_channels=64, n_classes=3, size=size, batch=batch_size)
-    model.load_state_dict(torch.load("unet"))
-
+    model = UNet(n_channels=64, n_classes=3, batch=batch_size)
+    model.load_state_dict(torch.load("flask_server/static/unet"))
     mask = apply_model_to_image(model, img, size)
     msi = convert_image_msi(img)
     rgb = convert_image_rgb(img)
-
-    return mask, msi, rgb
+    mask_msi = mix_images(mask, msi)
+    mask_rgb = mix_images(rgb, mask)
+    msi_rgb = mix_images(msi, rgb)
+    all = mix_images(mask_rgb, msi)
+    return mask, msi, rgb, mask_msi, mask_rgb, msi_rgb, all
