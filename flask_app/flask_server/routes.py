@@ -8,6 +8,10 @@ from flask_server.forms import RegistrationForm, LoginForm, UpdateAccountForm, P
 from flask_login import login_user, current_user,logout_user, login_required
 from flask_server.unet  import predict
 from werkzeug.utils import secure_filename
+from flask_server.keras_models import predict_image_seredou, load_model, load_image_from_paths
+
+
+MODEL_SEREDOU = load_model(os.path.join(r"flask_server\Models", "model_seredou.json"), os.path.join(r"flask_server\Models", "model_seredou_weights.h5"))
 
 @app.route("/")
 @app.route("/home")
