@@ -17,12 +17,13 @@ window.onload = function() {
   var evt = new Event();
   var m = new Magnifier(evt);
   m.attach({
-      thumb: '#thumb-inside-1',
-      large: "{{img_path}}",
+      thumb: '#thumb-inside',
+      large: "{{zoom_path}}",
       mode: 'inside',
       zoom: zoom,
       zoomable: true
   });
+  document.getElementById("scale").innerHTML += Math.round(100/zoom) + " m²."
 };
 </script>
 
@@ -30,15 +31,23 @@ window.onload = function() {
     <div class="list-group">
       <img class = "rounded-circle article-img" src="{{url_for ('static', filename= 'profile_pics/' + post.author.image_file)}}">
       <br/>
-      <a href="/viz/{{post.id}}/zoom/{{zoom+1}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">+</a>
-      <a href="/viz/{{post.id}}/zoom/{{zoom-1}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">-</a>
+      <div> Zoom </div>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom+1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">+</a>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom-1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">-</a>
       <br/>
       <br/>
-
-      <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}" style="width:70px;height:50px;" class="{{mask_style}} m-0 list-group-item list-group-item-action">Pred</a>
-      <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}" style="width:70px;height:50px;" class="{{msi_style}} m-0 list-group-item list-group-item-action">MSI</a>
-      <a href="/viz/{{post.id}}/img/{{img+4}}/zoom/{{zoom}}" style="width:70px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
-
+      <div style="width:70px;"> Main image </div>
+      <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:70px;height:50px;" class="{{infra_style}} m-0 list-group-item list-group-item-action">Infra</a>
+      <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:70px;height:50px;" class="{{mask_style}} m-0 list-group-item list-group-item-action">Pred</a>
+      <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:70px;height:50px;" class="{{msi_style}} m-0 list-group-item list-group-item-action">MSI</a>
+      <a href="/viz/{{post.id}}/img/{{img+4}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:70px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+      <br/>
+      <br/>
+      <div style="width:70px;"> Zoom image </div>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+8}}" style="width:70px;height:50px;" class="{{zoom_infra_style}} m-0 list-group-item list-group-item-action">Infra</a>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+mask}}" style="width:70px;height:50px;" class="{{zoom_mask_style}} m-0 list-group-item list-group-item-action">Pred</a>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+msi}}" style="width:70px;height:50px;" class="{{zoom_msi_style}} m-0 list-group-item list-group-item-action">MSI</a>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+4}}" style="width:70px;height:50px;" class="{{zoom_rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
     </div>
     <div class="media-body">
         <div class="article-metadata">
@@ -46,12 +55,10 @@ window.onload = function() {
         <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
         </div>
         <h2 class= "article-title">{{ post.title }}</h2>
+        <p id="scale" class="article-content"> In the zoom window, a pixel corresponds to </p>
         <div>
           <div class="magnifier-thumb-wrapper">
-              <img class="img-fluid" alt="Responsive image" id="thumb-inside-1" src="{{img_path}}" data-mode="inside" data-zoomable="true">
-          <div id="thumb-inside-lens" class="magnifier-lens hidden" style="width: 67px; height: 52px; background: url(&quot;{{img_path}}&quot;) -33px 0px no-repeat scroll; left: 42px; top: -18px;">
-            <img class="img-fluid" alt="Responsive image" src="{{img_path}}" id="thumb-inside-large-1" class="magnifier-large hidden">
-          </div>
+              <img class="img-fluid" alt="Responsive image" id="thumb-inside" src="{{img_path}}" data-mode="inside" data-zoomable="true">
         </div>
     </div>
     <a class="btn btn-primary" href="/post/{{post.id}}"> Back </a>

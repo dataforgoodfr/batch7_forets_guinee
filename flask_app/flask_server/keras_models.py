@@ -2,6 +2,10 @@ import numpy as np
 import tensorflow as tf
 from keras.models import model_from_json
 from pyrsgis import raster
+from flask_server.keras_models import predict_image_seredou, load_model, load_image_from_paths
+
+
+MODEL_SEREDOU = load_model(os.path.join(r"flask_server\Models", "model_seredou.json"), os.path.join(r"flask_server\Models", "model_seredou_weights.h5"))
 
 def predict_image_seredou(numpy_image, model):
     """
