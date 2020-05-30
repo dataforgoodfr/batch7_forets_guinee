@@ -1,4 +1,6 @@
+import numpy as np
 import os
+import raster
 import secrets
 from PIL import Image
 from flask_server import app, db, bcrypt
@@ -12,6 +14,7 @@ from flask_server.keras_models import predict_image_seredou, load_model, load_im
 
 
 MODEL_SEREDOU = load_model(os.path.join(r"flask_server\Models", "model_seredou.json"), os.path.join(r"flask_server\Models", "model_seredou_weights.h5"))
+use_keras = True
 
 @app.route("/")
 @app.route("/home")
@@ -112,12 +115,16 @@ def new_post():
             filename = random_hex + f_ext
             f.save(os.path.join(app.root_path, 'static', 'post_picture', filename))
             file_path = os.path.join('flask_server', 'static', 'post_picture', filename)
-            mask, msi, rgb, mask_msi, mask_rgb, msi_rgb, all = predict(file_path)
-            post = Post(title= form.title.data, content=form.content.data, mask=save_picture_post(mask, "mask.png"),
-            msi=save_picture_post(msi, "msi.png"), rgb=save_picture_post(rgb, "rgb.png"), mask_msi=save_picture_post(mask_msi, "mask_msi.png"),
-            mask_rgb=save_picture_post(mask_rgb, "mask_rgb.png"), msi_rgb=save_picture_post(msi_rgb, "msi_rgb.png"),
-            all_imgs =save_picture_post(all, "all.png"), author= current_user)
-            os.remove(os.path.join(app.root_path, 'static', 'post_picture', filename))
+            if not use_keras:
+                mask, msi, rgb, mask_msi, mask_rgb, msi_rgb, all = predict(file_path)
+                post = Post(title= form.title.data, content=form.content.data, mask=save_picture_post(mask, "mask.png"),
+                msi=save_picture_post(msi, "msi.png"), rgb=save_picture_post(rgb, "rgb.png"), mask_msi=save_picture_post(mask_msi, "mask_msi.png"),
+                mask_rgb=save_picture_post(mask_rgb, "mask_rgb.png"), msi_rgb=save_picture_post(msi_rgb, "msi_rgb.png"),
+                all_imgs =save_picture_post(all, "all.png"), author= current_user)
+                os.remove(os.path.join(app.root_path, 'static', 'post_picture', filename))
+            else:
+                prediction, original = predict_image_seredou(file_path, MODEL_SEREDOU)
+                post = Post(title=form.title.data, content=form.content.data, mask=prediction,all_imgs=original)
         else :
             post = Post(title= form.title.data, content=form.content.data, author= current_user)
         db.session.add(post)
