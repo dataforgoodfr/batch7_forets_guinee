@@ -7,11 +7,7 @@ from flask_server.models import User, Post
 from flask_server.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flask_login import login_user, current_user,logout_user, login_required
 from flask_server.transform_to_images  import generate
-from flask_server.keras_models  import predict_image_seredou, load_image_from_path
-from werkzeug.utils import secure_filename
-
-MODEL_SEREDOU = load_model(os.path.join(r"flask_server\Models", "model_seredou.json"), os.path.join(r"flask_server\Models", "model_seredou_weights.h5"))
-use_keras = True
+from flask_server.keras_models  import predict_image, load_image_from_path
 
 @app.route("/")
 @app.route("/home")
@@ -113,8 +109,8 @@ def new_post():
             f.save(os.path.join(app.root_path, 'static', 'post_picture', filename))
             file_path = os.path.join('flask_server', 'static', 'post_picture', filename)
             input = load_image_from_path(file_path)
-            output = predict_image_seredou(input)
-            mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis = generate(output, input, form.color1, form.color2, form.color3)
+            output = predict_image(input, form.country.data)
+            mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis = generate(output, input, form.color1.data, form.color2.data, form.color3.data)
             post = Post(title= form.title.data, content=form.content.data, mask=save_picture_post(mask, "mask.png"),
             msi=save_picture_post(msi, "msi.png"), rgb=save_picture_post(rgb, "rgb.png"), mask_msi=save_picture_post(mask_msi, "mask_msi.png"),
             infra=save_picture_post(infra, "infra.png"), mask_rgb=save_picture_post(mask_rgb, "mask_rgb.png"), msi_rgb=save_picture_post(msi_rgb, "msi_rgb.png"),

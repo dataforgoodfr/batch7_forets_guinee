@@ -39,9 +39,10 @@ def get_kpis(output):
     nb_vir = np.sum(output == 0)
     nb_def = np.sum(output == 1)
     nb_not = np.sum(output == 2)
+    nb_total = nb_vir + nb_def + nb_not
     return "Virgin forest: " + str(nb_vir/nb_total*100)[:4] + "% Deforested forest: "+ str(nb_def/nb_total*100)[:4] + "% No forest: " + str(nb_not/nb_total*100)[:4]+"%"
 
-def generate(input, output):
+def generate(input, output, hex0, hex1, hex2):
     mask = convert_mask_to_image(output, hex0, hex1, hex2)
     kpis = get_kpis(mask)
     msi = convert_image_msi(input)
