@@ -1,6 +1,5 @@
 import numpy as np
 import os
-import raster
 import secrets
 from PIL import Image
 from flask_server import app, db, bcrypt
@@ -10,10 +9,8 @@ from flask_server.forms import RegistrationForm, LoginForm, UpdateAccountForm, P
 from flask_login import login_user, current_user,logout_user, login_required
 from flask_server.unet  import predict
 from werkzeug.utils import secure_filename
-from flask_server.keras_models import predict_image_seredou, load_model, load_image_from_paths
+from flask_server.keras_models import predict_image, load_model, load_image_from_paths
 
-
-MODEL_SEREDOU = load_model(os.path.join(r"flask_server\Models", "model_seredou.json"), os.path.join(r"flask_server\Models", "model_seredou_weights.h5"))
 use_keras = True
 
 @app.route("/")
@@ -123,7 +120,8 @@ def new_post():
                 all_imgs =save_picture_post(all, "all.png"), author= current_user)
                 os.remove(os.path.join(app.root_path, 'static', 'post_picture', filename))
             else:
-                prediction, original = predict_image_seredou(file_path, MODEL_SEREDOU)
+                prediction, original = predict_image(file_path, form.country.data)
+
                 post = Post(title=form.title.data, content=form.content.data, mask=prediction,all_imgs=original)
         else :
             post = Post(title= form.title.data, content=form.content.data, author= current_user)
