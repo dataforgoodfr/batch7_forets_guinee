@@ -3,7 +3,7 @@ import os
 from keras.models import model_from_json
 from pyrsgis import raster
 
-def predict_image(numpy_image, model_type):
+def predict_image(original_image, model_type):
     """
     Channel order for numpy_image:
     - blue
@@ -37,7 +37,8 @@ def predict_image(numpy_image, model_type):
     else:
         raise Exception("Not a valid country")
 
-    numpy_image =  np.moveaxis(numpy_image, 0, 2)
+    numpy_image = original_image.copy()
+    numpy_image = np.moveaxis(numpy_image, 0, 2)
 
     for i in range(np.shape(numpy_image)[2]):
         numpy_image[..., i] = numpy_image[..., i] / maxima[i]
@@ -62,8 +63,8 @@ def predict_image(numpy_image, model_type):
             prediction[x_min:x_max, y_min: y_max] += pred[0]
         print("One row completed")
     final_prediction = np.argmax(prediction, axis=-1)
-    numpy_image =  np.moveaxis(numpy_image, 0, 2)
 
+    del(model)
     return final_prediction
 
 def load_model(path_to_json, path_to_weights):

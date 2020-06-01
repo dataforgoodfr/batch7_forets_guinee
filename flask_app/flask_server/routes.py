@@ -110,7 +110,7 @@ def new_post():
             file_path = os.path.join('flask_server', 'static', 'post_picture', filename)
             input = load_image_from_path(file_path)
             output = predict_image(input, form.country.data)
-            mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis = generate(output, input, form.color1.data, form.color2.data, form.color3.data)
+            mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis = generate(input, output, form.color1.data, form.color2.data, form.color3.data)
             post = Post(title= form.title.data, content=form.content.data, mask=save_picture_post(mask, "mask.png"),
             msi=save_picture_post(msi, "msi.png"), rgb=save_picture_post(rgb, "rgb.png"), mask_msi=save_picture_post(mask_msi, "mask_msi.png"),
             infra=save_picture_post(infra, "infra.png"), mask_rgb=save_picture_post(mask_rgb, "mask_rgb.png"), msi_rgb=save_picture_post(msi_rgb, "msi_rgb.png"),
@@ -159,7 +159,7 @@ def update_post(post_id):
             print("Starting calculating output................")
             output = predict_image(input)
             print("Finished Output")
-            mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis = generate(output, input, form.color1, form.color2, form.color3)
+            mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis = generate(input, output, form.color1, form.color2, form.color3)
             post.mask=save_picture_post(mask, "mask.png")
             post.msi=save_picture_post(msi, "msi.png")
             post.rgb=save_picture_post(rgb, "rgb.png")
