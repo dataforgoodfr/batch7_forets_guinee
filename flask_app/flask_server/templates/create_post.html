@@ -42,6 +42,45 @@
                         {% endif %}
                 </div>
                 <div class="form-group">
+                    {{ form.color1.label(class="form-control-label") }}
+                    {% if form.color1.errors %}
+                        {{ form.color1(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.color1.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.color1(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.color2.label(class="form-control-label") }}
+                    {% if form.color2.errors %}
+                        {{ form.color2(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.color2.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.color2(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.color3.label(class="form-control-label") }}
+                    {% if form.color3.errors %}
+                        {{ form.color3(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.color3.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.color3(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
                     {{ form.country.label(class="form-control-label") }}
                     {% if form.country.errors %}
                         {{ form.country(class="form-control form-control-lg is-invalid") }}
@@ -54,20 +93,6 @@
                         {{ form.country(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-                <div class="form-group">
-                    {{ form.nb_channels.label(class="form-control-label") }}
-                    {% if form.nb_channels.errors %}
-                        {{ form.nb_channels(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.nb_channels.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.nb_channels(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-
                 </div>
             </fieldset>
             <div class="form-group">

@@ -59,5 +59,7 @@ class PostForm(FlaskForm):
     content = TextAreaField('Description of prediction', validators=[DataRequired()])
     picture = FileField('File (.tif) containing area information to be predicted', validators=[FileAllowed(['tif'])])
     country = SelectField('Country of prediction', choices = [('Guinea', 'Guinea'), ('Congo', 'Congo')], validators=[DataRequired()])
-    nb_channels = IntegerField('Number of channels in file', validators=[DataRequired()])
+    color1 = TextAreaField('Color of virgin forest pixels', default='#064518', validators=[DataRequired()])
+    color2 = TextAreaField('Color of deforested forest pixels', default='#DEDC93', validators=[DataRequired()])
+    color3 = TextAreaField('Color of no forest pixels', default='#A3A39B', validators=[DataRequired()])
     submit= SubmitField('Post')

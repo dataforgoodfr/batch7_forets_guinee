@@ -36,18 +36,23 @@ window.onload = function() {
       <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom-1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">-</a>
       <br/>
       <br/>
-      <div style="width:70px;"> Main image </div>
-      <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:70px;height:50px;" class="{{infra_style}} m-0 list-group-item list-group-item-action">Infra</a>
-      <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:70px;height:50px;" class="{{mask_style}} m-0 list-group-item list-group-item-action">Pred</a>
-      <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:70px;height:50px;" class="{{msi_style}} m-0 list-group-item list-group-item-action">MSI</a>
-      <a href="/viz/{{post.id}}/img/{{img+4}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:70px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+      <div style="width:110px;"> Main image </div>
+      <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
+      <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
+      <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:70px;" class="{{msi_style}} m-0 list-group-item list-group-item-action">Hydric stress</a>
+      <a href="/viz/{{post.id}}/img/{{img+4}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
       <br/>
       <br/>
-      <div style="width:70px;"> Zoom image </div>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+8}}" style="width:70px;height:50px;" class="{{zoom_infra_style}} m-0 list-group-item list-group-item-action">Infra</a>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+mask}}" style="width:70px;height:50px;" class="{{zoom_mask_style}} m-0 list-group-item list-group-item-action">Pred</a>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+msi}}" style="width:70px;height:50px;" class="{{zoom_msi_style}} m-0 list-group-item list-group-item-action">MSI</a>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+4}}" style="width:70px;height:50px;" class="{{zoom_rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+      <div style="width:110px;"> Zoom image </div>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+8}}" style="width:100px;height:50px;" class="{{zoom_infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_mask}}" style="width:100px;height:50px;" class="{{zoom_mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_msi}}" style="width:100px;height:70px;" class="{{zoom_msi_style}} m-0 list-group-item list-group-item-action">Hydric stress</a>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+4}}" style="width:100px;height:50px;" class="{{zoom_rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+      <br/>
+      <br/>
+      <div style="width:100px" class="m-0">
+        {{kpis}}
+      </div>
     </div>
     <div class="media-body">
         <div class="article-metadata">
@@ -55,12 +60,23 @@ window.onload = function() {
         <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
         </div>
         <h2 class= "article-title">{{ post.title }}</h2>
-        <p id="scale" class="article-content"> In the zoom window, a pixel corresponds to </p>
+        <div>
+          {% if msi_style !="" or zoom_msi_style != "" %}
+            <div> Hydric stress: Lighter pixels indicate higher water stress in forests.  </div>
+          {% endif %}
+          {% if infra_style !="" or zoom_infra_style != "" %}
+            <div> Infrared: Red hues show broadleaf or/and healthier vegetation. </div>
+          {% endif %}
+          {% if rgb_style !="" or zoom_rgb_style != "" %}
+            <div> RGB: visualization alone does not allow detection of degradation patterns in tropical forests.  </div>
+          {% endif %}
+        </div>
         <div>
           <div class="magnifier-thumb-wrapper">
               <img class="img-fluid" alt="Responsive image" id="thumb-inside" src="{{img_path}}" data-mode="inside" data-zoomable="true">
         </div>
     </div>
+    <p id="scale" class="font-italic article-content"> In the zoom window, a pixel corresponds to </p>
     <a class="btn btn-primary" href="/post/{{post.id}}"> Back </a>
 </article>
 
