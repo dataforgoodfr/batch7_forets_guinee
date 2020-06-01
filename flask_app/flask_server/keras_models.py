@@ -36,7 +36,7 @@ def predict_image(numpy_image, model_type):
 
     else:
         raise Exception("Not a valid country")
-    print(np.shape(numpy_image))
+
     numpy_image =  np.moveaxis(numpy_image, 0, 2)
 
     for i in range(np.shape(numpy_image)[2]):
@@ -44,7 +44,7 @@ def predict_image(numpy_image, model_type):
 
     width, height, _ = np.shape(numpy_image)
     prediction = np.zeros((width, height, 4))
-
+    print("Start computing for each row....")
     for i in range(0, width, 100):
         for j in range(0, height, 100):
             x_min = i
@@ -60,8 +60,10 @@ def predict_image(numpy_image, model_type):
             X_temp = numpy_image[x_min: x_max, y_min: y_max]
             pred = model.predict(np.array([X_temp]))
             prediction[x_min:x_max, y_min: y_max] += pred[0]
-
+        print("One row completed")
     final_prediction = np.argmax(prediction, axis=-1)
+    numpy_image =  np.moveaxis(numpy_image, 0, 2)
+
     return final_prediction
 
 def load_model(path_to_json, path_to_weights):

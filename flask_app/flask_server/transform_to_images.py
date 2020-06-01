@@ -8,11 +8,11 @@ def normalize_img(img):
   return scale * (img - np.max(img))
 
 def convert_mask_to_image(img, hex0, hex1, hex2):
-    img[img == 0] = hex0
-    img[img == 1] = hex1
-    img[img == 2] = hex2
+    img[img == 0] = int(0)
+    img[img == 1] = int(1)
+    img[img == 2] = int(2)
     row = np.expand_dims(normalize_img(img), axis = 1)
-    return Image.fromarray(np.uint8(np.concatenate((row,row,row), axis = 2)), 'RGB'), kpis
+    return Image.fromarray(np.uint8(np.concatenate((row,row,row), axis = 2)), 'RGB') #, kpis
 
 def convert_image_msi(img):
     row = np.expand_dims(normalize_img(img[10,:,:]), axis = 2)
@@ -58,5 +58,5 @@ def generate(input, output, hex0, hex1, hex2):
     mask_rgb_infra = mix_images(rgb_infra, mask)
     msi_rgb_infra = mix_images(msi_infra, rgb)
     msi_rgb_mask = mix_images(mask_rgb, msi)
-    all =  mix_images(msi_rgb_mask, infra)
+    all = mix_images(msi_rgb_mask, infra)
     return mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis
