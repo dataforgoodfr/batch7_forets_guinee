@@ -45,7 +45,7 @@ def predict_image(original_image, model_type):
 
     width, height, _ = np.shape(numpy_image)
     prediction = np.zeros((width, height, 4))
-    print("Start computing for each row....")
+
     for i in range(0, width, 100):
         for j in range(0, height, 100):
             x_min = i
@@ -61,7 +61,7 @@ def predict_image(original_image, model_type):
             X_temp = numpy_image[x_min: x_max, y_min: y_max]
             pred = model.predict(np.array([X_temp]))
             prediction[x_min:x_max, y_min: y_max] += pred[0]
-        print("One row completed")
+
     final_prediction = np.argmax(prediction, axis=-1)
 
     del(model)
@@ -77,7 +77,6 @@ def load_model(path_to_json, path_to_weights):
 
 def load_image_from_path(all_bands_channels):
     _ , data = raster.read(all_bands_channels, bands='all')
-    print(np.shape(data))
     return data
 
 def load_image_from_paths(all_bands_channels, msi, cwi=None, lai=None):
