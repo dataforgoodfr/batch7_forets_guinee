@@ -14,15 +14,19 @@
         <p class="article-content">You can <a href="/viz/{{post.id}}">better visualise the maps</a>, <a href="{{url_for ('static', filename= 'post_picture/' + post.tiff)}}" download="prediction_mask_image.tif">download the .tif prediction file</a> or directly click on the images below to download them.</p>
         <a href="{{url_for ('static', filename= 'post_picture/' + post.mask)}}" download="prediction_mask">
             <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.mask)}}">
+            <div> Degraded forest prediction </div>
         </a>
         <a href="{{url_for ('static', filename= 'post_picture/' + post.msi)}}" download="input_msi">
             <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.msi)}}">
+            <div> Water stress </div>
         </a>
         <a href="{{url_for ('static', filename= 'post_picture/' + post.rgb)}}" download="input_rgb">
             <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.rgb)}}">
+            <div> RGB </div>
         </a>
         <a href="{{url_for ('static', filename= 'post_picture/' + post.infra)}}" download="input_infra">
             <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.infra)}}">
+            <div> Infrared </div>
         </a>
 
         {% endif %}

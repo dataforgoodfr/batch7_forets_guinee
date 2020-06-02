@@ -1,4 +1,5 @@
 import os
+import secrets
 from PIL import Image
 from flask_server import app, db, bcrypt
 from flask import render_template, url_for, flash, redirect, request, abort
@@ -14,7 +15,7 @@ from pyrsgis import raster
 def home():
     if current_user.is_authenticated:
         #posts = Post.query.filter(Post.user_id == current_user.id).all()
-        posts = Post.query.all()
+        posts = Post.query.order_by(db.desc('id')).all()
         return render_template('home.html', posts=posts)
     else:
         return render_template('home.html')
