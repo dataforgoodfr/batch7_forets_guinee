@@ -77,10 +77,10 @@ def load_model(path_to_json, path_to_weights):
 
 def load_image_from_path(all_bands_channels):
     _ , data = raster.read(all_bands_channels, bands='all')
-    data[data < 0] = 0
     return data
 
-def load_image_from_paths(all_bands_channels, msi, cwi=None, lai=None):
+def load_image_from_paths(paths):
+    all_bands_channels, msi, cwi, lai = paths
     _ , data = raster.read(all_bands_channels, bands='all')
     data = np.moveaxis(data, 0, 2)
 
