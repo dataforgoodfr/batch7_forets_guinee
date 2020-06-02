@@ -37,7 +37,7 @@ def predict_image(original_image, model_type):
     else:
         raise Exception("Not a valid country")
     numpy_image = original_image.copy()
-    #numpy_image = np.moveaxis(numpy_image, 0, 2)
+    numpy_image = np.moveaxis(numpy_image, 0, 2)
 
     for i in range(np.shape(numpy_image)[2]):
         numpy_image[..., i] = numpy_image[..., i] / maxima[i]
@@ -75,8 +75,8 @@ def load_model(path_to_json, path_to_weights):
     return model
 
 def load_image_from_path(all_bands_channels):
-    _ , data = raster.read(all_bands_channels, bands='all')
-    return data
+    dsi , data = raster.read(all_bands_channels, bands='all')
+    return dsi, data
 
 def load_image_from_paths(paths):
     all_bands_channels, msi, cwi, lai = paths[0], paths[1], paths[2], paths[3]

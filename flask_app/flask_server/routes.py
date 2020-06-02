@@ -7,7 +7,7 @@ from flask_server.models import User, Post
 from flask_server.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flask_login import login_user, current_user,logout_user, login_required
 from flask_server.transform_to_images import generate
-from flask_server.keras_models import predict_image, load_image_from_paths
+from flask_server.keras_models import predict_image, load_image_from_paths, load_image_from_path
 from pyrsgis import raster
 
 @app.route("/")
@@ -104,21 +104,14 @@ def new_post():
     form = PostForm()
     if form.validate_on_submit():
         if form.picture.data :
+            f = form.picture.data
+            random_hex = secrets.token_hex(8)
+            _, f_ext = os.path.splitext(f.filename)
+            filename = random_hex + f_ext
+            f.save(os.path.join(app.root_path, 'static', 'post_picture', filename))
+            image_path = os.path.join('flask_server', 'static', 'post_picture', filename)
+            dataSource, input = load_image_from_path(image_path)
 
-            data_to_import = [form.picture.data, form.msi.data, form.cwi.data, form.lai.data]
-            image_paths = []
-
-            for f in data_to_import:
-                if f:
-                    random_hex = secrets.token_hex(8)
-                    _, f_ext = os.path.splitext(f.filename)
-                    filename = random_hex + f_ext
-                    f.save(os.path.join(app.root_path, 'static', 'post_picture', filename))
-                    image_paths.append(os.path.join('flask_server', 'static', 'post_picture', filename))
-                else:
-                    image_paths.append(None)
-
-            dataSource, input = load_image_from_paths(image_paths)
             print("Starting calculating output................")
             output = predict_image(input, form.country.data)
             print("Finished Output")
