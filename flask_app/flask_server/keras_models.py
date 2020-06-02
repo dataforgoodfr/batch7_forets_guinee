@@ -81,7 +81,7 @@ def load_image_from_path(all_bands_channels):
 
 def load_image_from_paths(paths):
     all_bands_channels, msi, cwi, lai = paths[0], paths[1], paths[2], paths[3]
-    _ , data = raster.read(all_bands_channels, bands='all')
+    ds , data = raster.read(all_bands_channels, bands='all')
     data = np.moveaxis(data, 0, 2)
 
     if cwi is not None:
@@ -98,4 +98,4 @@ def load_image_from_paths(paths):
     msi_data = np.reshape(chan, (np.shape(chan)[0], np.shape(chan)[1], 1))
     data = np.dstack([data, msi_data])
 
-    return data
+    return ds, data
