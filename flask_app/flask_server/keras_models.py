@@ -36,9 +36,8 @@ def predict_image(original_image, model_type):
 
     else:
         raise Exception("Not a valid country")
-
     numpy_image = original_image.copy()
-    numpy_image = np.moveaxis(numpy_image, 0, 2)
+    #numpy_image = np.moveaxis(numpy_image, 0, 2)
 
     for i in range(np.shape(numpy_image)[2]):
         numpy_image[..., i] = numpy_image[..., i] / maxima[i]

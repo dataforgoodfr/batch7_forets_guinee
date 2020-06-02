@@ -118,7 +118,7 @@ def new_post():
                 else:
                     image_paths.append(None)
 
-            dataSource, input = load_image_from_paths(image_path)
+            dataSource, input = load_image_from_paths(image_paths)
             print("Starting calculating output................")
             output = predict_image(input, form.country.data)
             print("Finished Output")
