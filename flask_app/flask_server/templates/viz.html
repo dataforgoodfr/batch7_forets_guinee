@@ -51,7 +51,9 @@ window.onload = function() {
       <br/>
       <br/>
       <div style="width:100px" class="m-0">
-        {{kpis}}
+          {% for kpi in kpis %}
+          <div style="width:100px;height:50px;"> {{kpi}} </div>
+          {% endfor %}
       </div>
 
     </div>

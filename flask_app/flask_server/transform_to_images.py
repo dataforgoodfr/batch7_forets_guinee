@@ -47,7 +47,7 @@ def get_kpis(output):
     nb_def = np.sum(output == 1)
     nb_other = np.sum(output == 2) + np.sum(output == 3)
     nb_total = nb_vir + nb_def + nb_other
-    return "Date of submission: " + str(datetime.datetime.now().date()) + " Total area: "+ nb_total*100 + "m² Intact forest: " + str(nb_vir/nb_total*100)[:4] + "% Degraded forest: "+ str(nb_def/nb_total*100)[:4] + "% Other: " + str(nb_other/nb_total*100)[:4]+"%"
+    return "Date of submission: " + str(datetime.datetime.now().date()) + "; Total area: "+ nb_total*100 + "m² ; Intact forest: " + str(nb_vir/nb_total*100)[:4] + "% ; Degraded forest: "+ str(nb_def/nb_total*100)[:4] + "% ; Other: " + str(nb_other/nb_total*100)[:4]+"%"
 
 def generate(input, output, hex0, hex1, hex2):
     kpis = get_kpis(output)
