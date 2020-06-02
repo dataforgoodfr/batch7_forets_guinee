@@ -80,7 +80,7 @@ def load_image_from_path(all_bands_channels):
     return data
 
 def load_image_from_paths(paths):
-    all_bands_channels, msi, cwi, lai = paths
+    all_bands_channels, msi, cwi, lai = paths[0], paths[1], paths[2], paths[3]
     _ , data = raster.read(all_bands_channels, bands='all')
     data = np.moveaxis(data, 0, 2)
 
