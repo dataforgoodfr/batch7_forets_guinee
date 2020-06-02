@@ -1,6 +1,16 @@
 
 {% extends "layout.html" %}
 {% block content %}
+
+<script>
+  window.onload = function() {
+      loading = function() {
+          document.getElementById("loading").style = ""
+      }
+      document.getElementById("submit").addEventListener("click", loading);
+  }
+</script>
+
 <div class="content-section">
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
@@ -32,6 +42,9 @@
                         {{ form.content(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <br/>
+                <br/>
+                <br/>
                 <div class="form-group">
                         {{ form.picture.label() }}
                         {{ form.picture(class="form-control-file") }}
@@ -41,6 +54,26 @@
                             {% endfor %}
                         {% endif %}
                 </div>
+                <div class="form-group">
+                        {{ form.msi.label() }}
+                        {{ form.msi(class="form-control-file") }}
+                        {% if form.msi.errors %}
+                            {% for error in form.msi.errors %}
+                                <span class= "text-danger">{{ error }}</span></br>
+                            {% endfor %}
+                        {% endif %}
+                </div>
+                <div class="form-group">
+                        {{ form.cwi.label() }}
+                        {{ form.cwi(class="form-control-file") }}
+                </div>
+                <div class="form-group">
+                        {{ form.lai.label() }}
+                        {{ form.lai(class="form-control-file") }}
+                </div>
+                <br/>
+                <br/>
+                <br/>
                 <div class="form-group">
                     {{ form.color1.label(class="form-control-label") }}
                     {% if form.color1.errors %}
@@ -80,6 +113,9 @@
                         {{ form.color3(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <br/>
+                <br/>
+                <br/>
                 <div class="form-group">
                     {{ form.country.label(class="form-control-label") }}
                     {% if form.country.errors %}
@@ -95,6 +131,12 @@
                 </div>
                 </div>
             </fieldset>
+            <div id="loading" style="display:none" class="alert alert-success" role="alert">
+              <h4 class="alert-heading">Loading... <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></h4>
+              <p>This process may take a while.</p>
+              <hr>
+              <p class="mb-0">Please do not close this tab!</p>
+            </div>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>

@@ -3,6 +3,7 @@ create table Post (
   id INTEGER NOT NULL,
   title VARCHAR(100) NOT NULL,
   date_posted DATETIME NOT NULL,
+  tiff VARCHAR(20),
   msi VARCHAR(20),
   rgb VARCHAR(20),
   mask VARCHAR(20),

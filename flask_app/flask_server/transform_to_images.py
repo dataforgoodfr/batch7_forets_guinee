@@ -1,5 +1,6 @@
 import numpy as np
 from PIL import Image
+import datetime
 
 ######################### Fonctions auxiliaires #########################
 
@@ -7,12 +8,18 @@ def normalize_img(img):
   scale = 1/(np.max(img) - np.min(img))
   return scale * (img - np.max(img))
 
+def hex_to_array(hex):
+    if hex[0] == "#":
+        return [int(hex[1:][i:i+2], 16) for i in (0, 2, 4)]
+    else:
+        return [int(hex[i:i+2], 16) for i in (0, 2, 4)]
+
 def convert_mask_to_image(img, hex0, hex1, hex2):
-    img[img == 0] = int(0)
-    img[img == 1] = int(1)
-    img[img == 2] = int(2)
-    row = np.expand_dims(normalize_img(img), axis = 1)
-    return Image.fromarray(np.uint8(np.concatenate((row,row,row), axis = 2)), 'RGB') #, kpis
+    new_image = np.zeros((img.shape[0], img.shape[1], 3))
+    new_image[img == 0] = hex_to_array(hex0)
+    new_image[img == 1] = hex_to_array(hex1)
+    new_image[img == 2] = hex_to_array(hex2)
+    return Image.fromarray(new_image, 'RGB') #, kpis
 
 def convert_image_msi(img):
     row = np.expand_dims(normalize_img(img[10,:,:]), axis = 2)
@@ -38,13 +45,13 @@ def mix_images(im1, img2):
 def get_kpis(output):
     nb_vir = np.sum(output == 0)
     nb_def = np.sum(output == 1)
-    nb_not = np.sum(output == 2)
-    nb_total = nb_vir + nb_def + nb_not
-    return "Virgin forest: " + str(nb_vir/nb_total*100)[:4] + "% Deforested forest: "+ str(nb_def/nb_total*100)[:4] + "% No forest: " + str(nb_not/nb_total*100)[:4]+"%"
+    nb_other = np.sum(output == 2) + np.sum(output == 3)
+    nb_total = nb_vir + nb_def + nb_other
+    return "Date of submission: " + str(datetime.datetime.now().date()) + " Total area: "+ nb_total*100 + "m² Intact forest: " + str(nb_vir/nb_total*100)[:4] + "% Degraded forest: "+ str(nb_def/nb_total*100)[:4] + "% Other: " + str(nb_other/nb_total*100)[:4]+"%"
 
 def generate(input, output, hex0, hex1, hex2):
-    mask = convert_mask_to_image(output, hex0, hex1, hex2)
-    kpis = get_kpis(mask)
+    kpis = get_kpis(output)
+    mask = convert_mask_to_image(output, str(hex0), str(hex1), str(hex2))
     msi = convert_image_msi(input)
     rgb = convert_image_rgb(input)
     infra = convert_image_infra(input)

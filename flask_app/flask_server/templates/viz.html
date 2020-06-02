@@ -40,19 +40,20 @@ window.onload = function() {
       <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
       <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
       <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:70px;" class="{{msi_style}} m-0 list-group-item list-group-item-action">Hydric stress</a>
-      <a href="/viz/{{post.id}}/img/{{img+4}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+      <a href="/viz/{{post.id}}/img/{{img+rgb}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
       <br/>
       <br/>
       <div style="width:110px;"> Zoom image </div>
       <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+8}}" style="width:100px;height:50px;" class="{{zoom_infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
       <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_mask}}" style="width:100px;height:50px;" class="{{zoom_mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
       <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_msi}}" style="width:100px;height:70px;" class="{{zoom_msi_style}} m-0 list-group-item list-group-item-action">Hydric stress</a>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+4}}" style="width:100px;height:50px;" class="{{zoom_rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_rgb}}" style="width:100px;height:50px;" class="{{zoom_rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
       <br/>
       <br/>
       <div style="width:100px" class="m-0">
         {{kpis}}
       </div>
+
     </div>
     <div class="media-body">
         <div class="article-metadata">

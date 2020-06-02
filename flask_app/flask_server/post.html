@@ -24,6 +24,9 @@
         <a href="{{url_for ('static', filename= 'post_picture/' + post.infra)}}" download="input_infra">
             <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.infra)}}">
         </a>
+        <a href="{{url_for ('static', filename= 'post_picture/' + post.tiff)}}" download="prediction">
+            prediction_mask.tiff
+        </a>
 
         {% endif %}
     </div>

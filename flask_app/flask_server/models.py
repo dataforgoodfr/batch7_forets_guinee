@@ -21,6 +21,7 @@ class Post(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), unique=True, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    tiff = db.Column(db.String(20), nullable=False)
     msi = db.Column(db.String(20), nullable=False)
     rgb = db.Column(db.String(20), nullable=False)
     mask = db.Column(db.String(20), nullable=False)
