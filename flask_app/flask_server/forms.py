@@ -57,10 +57,7 @@ class UpdateAccountForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('Title of prediction', validators=[DataRequired()])
     content = TextAreaField('Description of prediction', validators=[DataRequired()])
-    picture = FileField('File (.tif) containing satellite data', validators=[FileAllowed(['tif'])])
-    msi = FileField('File (.tif) containing MSI data', validators=[FileAllowed(['tif'])])
-    cwi = FileField('File (.tif) containing CWI data (optional)')
-    lai = FileField('File (.tif) containing LAI data (optional)')
+    picture = FileField('File (.tif) containing satellite data, MSI, CWI and LAI all in one', validators=[FileAllowed(['tif'])])
     country = SelectField('Country of prediction', choices = [('Guinea', 'Guinea'), ('Congo', 'Congo')], validators=[DataRequired()])
     color1 = StringField('Color of intact forest pixels', default='#064518', validators=[DataRequired()])
     color2 = StringField('Color of degraded forest pixels', default='#DEDC93', validators=[DataRequired()])

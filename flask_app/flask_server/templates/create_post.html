@@ -54,23 +54,6 @@
                             {% endfor %}
                         {% endif %}
                 </div>
-                <div class="form-group">
-                        {{ form.msi.label() }}
-                        {{ form.msi(class="form-control-file") }}
-                        {% if form.msi.errors %}
-                            {% for error in form.msi.errors %}
-                                <span class= "text-danger">{{ error }}</span></br>
-                            {% endfor %}
-                        {% endif %}
-                </div>
-                <div class="form-group">
-                        {{ form.cwi.label() }}
-                        {{ form.cwi(class="form-control-file") }}
-                </div>
-                <div class="form-group">
-                        {{ form.lai.label() }}
-                        {{ form.lai(class="form-control-file") }}
-                </div>
                 <br/>
                 <br/>
                 <br/>

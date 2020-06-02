@@ -169,20 +169,13 @@ def update_post(post_id):
         post.title= form.title.data
         post.content = form.content.data
         if form.picture.data :
-            data_to_import = [form.picture.data, form.msi.data, form.cwi.data, form.lai.data]
-            image_paths = []
-            #import picture
-            for f in data_to_import:
-                if f:
-                    random_hex = secrets.token_hex(8)
-                    _, f_ext = os.path.splitext(f.filename)
-                    filename = random_hex + f_ext
-                    f.save(os.path.join(app.root_path, 'static', 'post_picture', filename))
-                    image_paths.append(os.path.join('flask_server', 'static', 'post_picture', filename))
-                else:
-                    image_paths.append(None)
-
-            dataSource, input = load_image_from_paths(image_path)
+            f = form.picture.data
+            random_hex = secrets.token_hex(8)
+            _, f_ext = os.path.splitext(f.filename)
+            filename = random_hex + f_ext
+            f.save(os.path.join(app.root_path, 'static', 'post_picture', filename))
+            image_path = os.path.join('flask_server', 'static', 'post_picture', filename)
+            dataSource, input = load_image_from_path(image_path)
 
             print("Starting calculating output................")
             output = predict_image(input, form.country.data)
