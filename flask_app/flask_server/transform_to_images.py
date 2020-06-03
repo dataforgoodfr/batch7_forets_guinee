@@ -16,9 +16,9 @@ def hex_to_array(hex):
 
 def convert_mask_to_image(img, hex0, hex1, hex2):
     new_image = np.zeros((img.shape[0], img.shape[1], 3))
-    new_image[img == 0] =  np.uint8(hex_to_array(hex0))
-    new_image[img == 1] =  np.uint8(hex_to_array(hex1))
-    new_image[img == 2] =  np.uint8(hex_to_array(hex2))
+    new_image[img == 1] =  np.uint8(hex_to_array(hex0))
+    new_image[img == 2] =  np.uint8(hex_to_array(hex1))
+    new_image[img == 3] =  np.uint8(hex_to_array(hex2))
 
     return Image.fromarray(new_image.astype('uint8'), 'RGB')
 
