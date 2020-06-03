@@ -23,14 +23,14 @@ def convert_mask_to_image(img, hex0, hex1, hex2):
     return Image.fromarray(new_image.astype('uint8'), 'RGB')
 
 def convert_image_msi(img):
-    row = np.expand_dims(normalize_img(img[-1]), axis=2)
-    return Image.fromarray(np.uint8(255 * np.concatenate((row, row, row), axis=2)), 'RGB')
+    row = np.expand_dims(normalize_img(img[10,:,:]), axis = 2)
+    return Image.fromarray(np.uint8(255*np.concatenate((row, row, row), axis=2)), 'RGB')
 
 def convert_image_rgb(img):
-    red_row = np.expand_dims(normalize_img(img[2,:,:]), axis = 2)
-    green_row = np.expand_dims(normalize_img(img[1,:,:]), axis = 2)
-    blue_row = np.expand_dims(normalize_img(img[0,:,:]), axis = 2)
-    return Image.fromarray(np.uint8(255*np.concatenate((red_row, green_row, blue_row), axis=2)), 'RGB')
+    f_row = np.expand_dims(normalize_img(img[0,:,:]), axis = 2)
+    s_row = np.expand_dims(normalize_img(img[1,:,:]), axis = 2)
+    t_row = np.expand_dims(normalize_img(img[2,:,:]), axis = 2)
+    return Image.fromarray(np.uint8(255*np.concatenate((f_row, s_row, t_row), axis=2)), 'RGB')
 
 def convert_image_infra(img):
     f_row = np.expand_dims(normalize_img(img[6,:,:]), axis = 2)
