@@ -44,9 +44,9 @@ def mix_images(im1, img2):
     return Image.composite(im1, im2, mask)
 
 def get_kpis(output):
-    nb_vir = np.sum(output == 0)
-    nb_def = np.sum(output == 1)
-    nb_other = np.sum(output == 2) + np.sum(output == 3)
+    nb_vir = np.sum(output == 1)
+    nb_def = np.sum(output == 2)
+    nb_other = np.sum(output == 3) + np.sum(output == 0)
     nb_total = nb_vir + nb_def + nb_other
     return "Date of submission: " + str(datetime.datetime.now().date()) + " ; Total area: "+ str(nb_total*100) + "m² ; Intact forest: " + str(nb_vir/nb_total*100)[:4] + "% ; Degraded forest: "+ str(nb_def/nb_total*100)[:4] + "% ; Other: " + str(nb_other/nb_total*100)[:4]+"%"
 
