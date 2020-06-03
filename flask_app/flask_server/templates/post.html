@@ -15,19 +15,19 @@
         <div class="container">
           <div class="row">
               <a class="col-sm" align="center" href="{{url_for ('static', filename= 'post_picture/' + post.mask)}}" download="prediction_mask">
-                  <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.mask)}}">
+                  <img class = "m-0 article-img" src="{{url_for ('static', filename= 'post_picture/' + post.mask)}}">
                   <div> Degraded forest prediction </div>
               </a>
               <a class="col-sm" align="center" href="{{url_for ('static', filename= 'post_picture/' + post.msi)}}" download="input_msi">
-                  <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.msi)}}">
+                  <img class = "m-0 article-img" src="{{url_for ('static', filename= 'post_picture/' + post.msi)}}">
                   <div> Water stress </div>
               </a>
               <a class="col-sm" align="center" href="{{url_for ('static', filename= 'post_picture/' + post.rgb)}}" download="input_rgb">
-                  <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.rgb)}}">
+                  <img class = "m-0 article-img" src="{{url_for ('static', filename= 'post_picture/' + post.rgb)}}">
                   <div> RGB </div>
               </a>
               <a  class="col-sm" align="center" href="{{url_for ('static', filename= 'post_picture/' + post.infra)}}" download="input_infra">
-                  <img class = "article-img" src="{{url_for ('static', filename= 'post_picture/' + post.infra)}}">
+                  <img class = "m-0 article-img" src="{{url_for ('static', filename= 'post_picture/' + post.infra)}}">
                   <div> Infrared </div>
               </a>
           </div>
