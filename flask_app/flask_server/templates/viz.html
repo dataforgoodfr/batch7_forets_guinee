@@ -29,35 +29,44 @@ window.onload = function() {
 
 <article class="media content-section">
     <div class="list-group">
-      <img class = "rounded-circle article-img" src="{{url_for ('static', filename= 'profile_pics/' + post.author.image_file)}}">
-      <br/>
-      <div> Zoom </div>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom+1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">+</a>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom-1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">-</a>
-      <br/>
-      <br/>
-      <div style="width:110px;"> Main image </div>
-      <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
-      <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
-      <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:70px;" class="{{msi_style}} m-0 list-group-item list-group-item-action">Water stress</a>
-      <a href="/viz/{{post.id}}/img/{{img+rgb}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
-      <br/>
-      <br/>
-      <div style="width:110px;"> Zoom image </div>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+8}}" style="width:100px;height:50px;" class="{{zoom_infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_mask}}" style="width:100px;height:50px;" class="{{zoom_mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_msi}}" style="width:100px;height:70px;" class="{{zoom_msi_style}} m-0 list-group-item list-group-item-action">Water stress</a>
-      <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_rgb}}" style="width:100px;height:50px;" class="{{zoom_rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
-      <br/>
-      <br/>
-      <div style="width:100px" class="m-0">
-        {% for kpi in kpis %}
-        <div style="width:100px;height:80px;"> {{kpi}} </div>
-        {% endfor %}
+      <div style="width:210px;""></div>
+      <div style="position: fixed;">
+        <img class = "rounded-circle article-img" src="{{url_for ('static', filename= 'profile_pics/' + post.author.image_file)}}">
+        <br/>
+        <br/>
+        <div> Zoom </div>
+        <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom+1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">+</a>
+        <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom-1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">-</a>
+        <br/>
+        <br/>
+        <div class="container">
+          <div class="row">
+            <div style="col-sm">
+              <div> Main image </div>
+              <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
+              <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
+              <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:70px;" class="{{msi_style}} m-0 list-group-item list-group-item-action">Water stress</a>
+              <a href="/viz/{{post.id}}/img/{{img+rgb}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+            </div>
+            <div style="col-sm">
+              <div> Zoom image </div>
+              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+8}}" style="width:100px;height:50px;" class="{{zoom_infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
+              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_mask}}" style="width:100px;height:50px;" class="{{zoom_mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
+              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_msi}}" style="width:100px;height:70px;" class="{{zoom_msi_style}} m-0 list-group-item list-group-item-action">Water stress</a>
+              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_rgb}}" style="width:100px;height:50px;" class="{{zoom_rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="m-0">
+          {% for kpi in kpis %}
+          <div> {{kpi}} </div>
+          {% endfor %}
+        </div>
       </div>
-
     </div>
-    <div class="media-body">
+    <div class="media-body" style="left:110px">
         <div class="article-metadata">
         <a class="mr-2" href="#">{{ post.author.username }}</a>
         <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
