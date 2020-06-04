@@ -25,14 +25,14 @@ def predict_image(original_image, model_type):
                   6.80026270e+03, 7.73039795e+03, 1.39520293e+04, 7.77906787e+03,
                   1.61924541e+04, 1.57519648e+04, 1.38360262e-01, 5.02133465e+00,
                   1.07470360e+01]
-        model = load_model(os.path.join(r"flask_server\Models", "model_guinea.json"),
-                           os.path.join(r"flask_server\Models", "model_guinea.h5"))
+        model = load_model(os.path.join(os.path.join("flask_server", "Models"), "model_guinea.json"),
+                           os.path.join(os.path.join("flask_server", "Models"), "model_guinea.h5"))
     elif model_type == "Congo":
         maxima = [1.55391318e+04, 1.96239199e+04, 2.84899766e+04, 1.50214746e+04,
                   1.85321328e+04, 2.06404102e+04, 4.16918086e+04, 2.40694980e+04,
                   3.71772070e+04, 3.52320703e+04, 3.99795222e+00]
-        model = load_model(os.path.join(r"flask_server\Models", "model_congo.json"),
-                           os.path.join(r"flask_server\Models", "model_congo.h5"))
+        model = load_model(os.path.join(os.path.join("flask_server", "Models"), "model_congo.json"),
+                           os.path.join(os.path.join("flask_server", "Models"), "model_congo.h5"))
 
     else:
         raise Exception("Not a valid country")
