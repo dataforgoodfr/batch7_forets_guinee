@@ -1,5 +1,5 @@
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFont, ImageDraw
 import datetime
 
 ######################### Fonctions auxiliaires #########################
@@ -20,28 +20,38 @@ def convert_mask_to_image(img, hex0, hex1, hex2):
     new_image[img == 2] =  np.uint8(hex_to_array(hex1))
     new_image[img == 3] =  np.uint8(hex_to_array(hex2))
 
-    return Image.fromarray(new_image.astype('uint8'), 'RGB')
+    image = Image.fromarray(new_image.astype('uint8'), 'RGB')
+    return image
 
 def convert_image_msi(img):
     row = np.expand_dims(normalize_img(img[-1,:,:]), axis = 2)
-    return Image.fromarray(np.uint8(255*np.concatenate((row, row, row), axis=2)), 'RGB')
+    image = Image.fromarray(np.uint8(255*np.concatenate((row, row, row), axis=2)), 'RGB')
+    return image
 
 def convert_image_rgb(img):
     red_row = np.expand_dims(normalize_img(img[2,:,:]), axis = 2)
     green_row = np.expand_dims(normalize_img(img[1,:,:]), axis = 2)
     blue_row = np.expand_dims(normalize_img(img[0,:,:]), axis = 2)
-    return Image.fromarray(np.uint8(255*np.concatenate((red_row, green_row, blue_row), axis=2)), 'RGB')
+    image = Image.fromarray(np.uint8(255*np.concatenate((red_row, green_row, blue_row), axis=2)), 'RGB')
+    return image
 
 def convert_image_infra(img):
     red_row = np.expand_dims(normalize_img(img[6,:,:]), axis = 2)
     green_row = np.expand_dims(normalize_img(img[8,:,:]), axis = 2)
     blue_row = np.expand_dims(normalize_img(img[2,:,:]), axis = 2)
-    return Image.fromarray(np.uint8(255*np.concatenate((red_row, green_row, blue_row), axis=2)), 'RGB')
+    image = Image.fromarray(np.uint8(255*np.concatenate((red_row, green_row, blue_row), axis=2)), 'RGB')
+    return image
 
 def mix_images(im1, img2):
     im2 = img2.resize(im1.size)
     mask = Image.new("L", im1.size, 128)
-    return Image.composite(im1, im2, mask)
+    composite = Image.composite(im1, im2, mask)
+    return composite
+
+def add_legend(img):
+    legend = create_legend_bar(img.width)
+    image = get_concat_v_cut(img, legend)
+    return image
 
 def get_kpis(output):
     nb_vir = np.sum(output == 1)
@@ -67,4 +77,45 @@ def generate(input, output, hex0, hex1, hex2):
     msi_rgb_infra = mix_images(msi_infra, rgb)
     msi_rgb_mask = mix_images(mask_rgb, msi)
     all = mix_images(msi_rgb_mask, infra)
-    return mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis
+    all_images = [mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all]
+    images_with_legend = []
+    for im in all_images:
+        images_with_legend.append(add_legend(im))
+    images_with_legend.append(kpis)
+    return images_with_legend
+
+
+def create_legend_bar(width):
+    step = 4
+
+    height = int(width * 0.1)
+    half_height = int(height / 4)
+    interval = int(height / 50)
+    width_step = int((width * 0.2) / step)
+    label = np.zeros((height, width)) + 255
+    #TODO Assure that it works also with small images
+    for j in range(int(width * 0.2)):
+        for i in range(half_height - interval, half_height + interval):
+            label[i][j + 50] = 0
+        if j % width_step < int(interval / 2) or j % width_step > width_step - int(interval / 2):
+            for i in range(half_height - 5 * interval, half_height + 5 * interval):
+                label[i][j + 50] = 0
+
+    font = ImageFont.truetype("arial.ttf", int(width_step / 5))
+    img = Image.fromarray(label.astype('uint8'), 'L')
+    draw = ImageDraw.Draw(img)
+    draw.text((25 + (0 * width_step), half_height + 6 * interval), str(0), font=font)
+    #TODO Assure that it works also with small images
+
+    for j in range(1, step):
+        draw.text((25 + (j * width_step) - interval, half_height + 6 * interval), str(width_step * j), font=font)
+
+    draw.text((25 + (step * width_step) - interval, half_height + 6 * interval), str(width_step * step) + " km", font=font)
+
+    return img
+
+def get_concat_v_cut(im1, im2):
+    dst = Image.new('RGB', (min(im1.width, im2.width), im1.height + im2.height))
+    dst.paste(im1, (0, 0))
+    dst.paste(im2, (0, im1.height))
+    return dst
