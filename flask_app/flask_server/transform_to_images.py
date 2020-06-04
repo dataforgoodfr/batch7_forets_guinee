@@ -21,15 +21,11 @@ def convert_mask_to_image(img, hex0, hex1, hex2):
     new_image[img == 3] =  np.uint8(hex_to_array(hex2))
 
     image = Image.fromarray(new_image.astype('uint8'), 'RGB')
-    legend = create_legend_bar(image.width)
-    image = get_concat_v_cut(image, legend)
     return image
 
 def convert_image_msi(img):
     row = np.expand_dims(normalize_img(img[-1,:,:]), axis = 2)
     image = Image.fromarray(np.uint8(255*np.concatenate((row, row, row), axis=2)), 'RGB')
-    legend = create_legend_bar(image.width)
-    image = get_concat_v_cut(image, legend)
     return image
 
 def convert_image_rgb(img):
@@ -37,8 +33,6 @@ def convert_image_rgb(img):
     green_row = np.expand_dims(normalize_img(img[1,:,:]), axis = 2)
     blue_row = np.expand_dims(normalize_img(img[0,:,:]), axis = 2)
     image = Image.fromarray(np.uint8(255*np.concatenate((red_row, green_row, blue_row), axis=2)), 'RGB')
-    legend = create_legend_bar(image.width)
-    image = get_concat_v_cut(image, legend)
     return image
 
 def convert_image_infra(img):
@@ -46,16 +40,17 @@ def convert_image_infra(img):
     green_row = np.expand_dims(normalize_img(img[8,:,:]), axis = 2)
     blue_row = np.expand_dims(normalize_img(img[2,:,:]), axis = 2)
     image = Image.fromarray(np.uint8(255*np.concatenate((red_row, green_row, blue_row), axis=2)), 'RGB')
-    legend = create_legend_bar(image.width)
-    image = get_concat_v_cut(image, legend)
     return image
 
 def mix_images(im1, img2):
     im2 = img2.resize(im1.size)
     mask = Image.new("L", im1.size, 128)
     composite = Image.composite(im1, im2, mask)
-    legend = create_legend_bar(mask.width)
-    image = get_concat_v_cut(composite,legend)
+    return composite
+
+def add_legend(img):
+    legend = create_legend_bar(img.width)
+    image = get_concat_v_cut(img, legend)
     return image
 
 def get_kpis(output):
@@ -82,7 +77,12 @@ def generate(input, output, hex0, hex1, hex2):
     msi_rgb_infra = mix_images(msi_infra, rgb)
     msi_rgb_mask = mix_images(mask_rgb, msi)
     all = mix_images(msi_rgb_mask, infra)
-    return mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis
+    all_images = [mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all]
+    images_with_legend = []
+    for im in all_images:
+        images_with_legend.append(add_legend(im))
+    images_with_legend.append(kpis)
+    return images_with_legend
 
 
 def create_legend_bar(width):
@@ -93,6 +93,7 @@ def create_legend_bar(width):
     interval = int(height / 50)
     width_step = int((width * 0.2) / step)
     label = np.zeros((height, width)) + 255
+    #TODO Assure that it works also with small images
     for j in range(int(width * 0.2)):
         for i in range(half_height - interval, half_height + interval):
             label[i][j + 50] = 0
@@ -104,6 +105,7 @@ def create_legend_bar(width):
     img = Image.fromarray(label.astype('uint8'), 'L')
     draw = ImageDraw.Draw(img)
     draw.text((25 + (0 * width_step), half_height + 6 * interval), str(0), font=font)
+    #TODO Assure that it works also with small images
 
     for j in range(1, step):
         draw.text((25 + (j * width_step) - interval, half_height + 6 * interval), str(width_step * j), font=font)
