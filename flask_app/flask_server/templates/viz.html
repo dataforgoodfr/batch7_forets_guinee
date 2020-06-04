@@ -61,12 +61,12 @@ window.onload = function() {
         <br/>
         <div class="m-0">
           {% for kpi in kpis %}
-          <div> {{kpi}} </div>
+          <div style="width:210px"> {{kpi}} </div>
           {% endfor %}
         </div>
       </div>
     </div>
-    <div class="media-body" style="left:110px">
+    <div class="media-body">
         <div class="article-metadata">
         <a class="mr-2" href="#">{{ post.author.username }}</a>
         <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
