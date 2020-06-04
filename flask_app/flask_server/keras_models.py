@@ -76,7 +76,7 @@ def load_model(path_to_json, path_to_weights):
 
 def load_image_from_path(all_bands_channels):
     dsi , data = raster.read(all_bands_channels, bands='all')
-    data[data < 0] = 0
+    #data[data < 0] = 0
     return dsi, data
 
 def load_image_from_paths(paths):

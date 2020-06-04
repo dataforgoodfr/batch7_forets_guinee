@@ -102,6 +102,7 @@ def new_post():
     if not current_user.is_authenticated:
         return redirect(url_for('home'))
     form = PostForm()
+
     if form.validate_on_submit():
         if form.picture.data :
             f = form.picture.data
@@ -158,6 +159,7 @@ def update_post(post_id):
     if post.author != current_user:
         abort(403)
     form = PostForm()
+
     if form.validate_on_submit():
         post.title= form.title.data
         post.content = form.content.data

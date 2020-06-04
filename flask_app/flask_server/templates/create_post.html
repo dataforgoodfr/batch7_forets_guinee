@@ -9,7 +9,37 @@
       }
       document.getElementById("submit").addEventListener("click", loading);
   }
+
+  window.changeColor = function(){
+      document.getElementById("color1").value = document.getElementById("intact_color_picker").value;
+      document.getElementById("color2").value = document.getElementById("degraded_color_picker").value;
+      document.getElementById("color3").value = document.getElementById("backgorund_color_picker").value;
+}
+
 </script>
+<head>
+<style>
+table, th, td {
+  padding-right: 40px;
+  padding-bottom: 10px;
+}
+table {
+  border-spacing: 15px;
+}
+.color{
+  background-color: "white";
+  border: none;
+  width: "12px";
+  visibility: hidden;
+}
+
+.title_color{
+    padding-bottom: 10px;
+    font-size: large;
+    font-weight: 600;
+}
+</style>
+</head>
 
 <div class="content-section">
         <form method="POST" action="" enctype="multipart/form-data">
@@ -58,45 +88,24 @@
                 <br/>
                 <br/>
                 <br/>
-                <div class="form-group">
-                    {{ form.color1.label(class="form-control-label") }}
-                    {% if form.color1.errors %}
-                        {{ form.color1(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.color1.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.color1(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.color2.label(class="form-control-label") }}
-                    {% if form.color2.errors %}
-                        {{ form.color2(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.color2.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.color2(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.color3.label(class="form-control-label") }}
-                    {% if form.color3.errors %}
-                        {{ form.color3(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.color3.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.color3(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
+                <div class="title_color">Choose prediction color for each class:</div>
+                <table>
+                    <tr>
+                    <td>Intact forest</td>
+                    <td><input type="color" id="intact_color_picker" onchange="changeColor()" value="#064518" style="width:120px;"></td>
+                    <td class="color">{{ form.color1(class="color")}}</td>
+                    </tr>
+                    <tr>
+                    <td>Degraded forest</td>
+                    <td><input type="color" id="degraded_color_picker" onchange="changeColor()" value="#DEDC93" style="width:120px;"></td>
+                    <td class="color">{{ form.color2(class="color") }}</td>
+                    </tr>
+                    <tr>
+                    <td>Background</td>
+                    <td><input type="color" id="backgorund_color_picker" onchange="changeColor()" value="#A3A39B" style="width:120px;"></td>
+                    <td class="color">{{ form.color3(class="color") }}</td>
+                    </tr>
+                    </table>
                 <br/>
                 <br/>
                 <br/>

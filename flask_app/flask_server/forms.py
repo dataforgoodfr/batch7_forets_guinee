@@ -5,7 +5,6 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_server.models import User
 
-
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
@@ -60,7 +59,7 @@ class PostForm(FlaskForm):
     picture = FileField('File (.tif) containing satellite data, MSI, CWI and LAI all in one',
                         validators=[FileAllowed(['tif'])])
     country = SelectField('Country of prediction', choices = [('Guinea', 'Guinea'), ('Congo', 'Congo')], validators=[DataRequired()])
-    color1 = StringField('Color of intact forest pixels', default='#064518', validators=[DataRequired()])
-    color2 = StringField('Color of degraded forest pixels', default='#DEDC93', validators=[DataRequired()])
-    color3 = StringField('Color of other pixels', default='#A3A39B', validators=[DataRequired()])
+    color1 = StringField('', default='#064518', validators=[DataRequired()], render_kw={'readonly': True})
+    color2 = StringField('', default='#DEDC93', validators=[DataRequired()], render_kw={'readonly': True})
+    color3 = StringField('', default='#A3A39B', validators=[DataRequired()], render_kw={'readonly': True})
     submit= SubmitField('Post')
