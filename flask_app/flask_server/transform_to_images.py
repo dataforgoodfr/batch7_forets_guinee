@@ -101,8 +101,9 @@ def create_legend_bar(width):
         if j % width_step < int(interval / 2) or j % width_step > width_step - int(interval / 2):
             for i in range(half_height - 5 * interval, half_height + 5 * interval):
                 label[i][j + 50] = 0
-    path_to_font = os.path.join("static", "fonts")
+    path_to_font = os.path.join(os.path.join("flask_app","static"), "fonts")
     font = ImageFont.truetype(os.path.join(path_to_font, "arial.ttf"), int(width_step / 5))
+    print(os.path.join(path_to_font, "arial.ttf"))
     img = Image.fromarray(label.astype('uint8'), 'L')
     draw = ImageDraw.Draw(img)
     draw.text((25 + (0 * width_step), half_height + 6 * interval), str(0), font=font)
