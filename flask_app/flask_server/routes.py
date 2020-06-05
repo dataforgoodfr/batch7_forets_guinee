@@ -228,7 +228,7 @@ def delete(post_id):
 
 #auxiliary function
 def get_imgs_with_id(post, img_id):
-    path = url_for ('static', filename= 'post_picture/' + post.msi)
+    path = url_for ('static', filename= 'post_picture/' + post.mask)
     mask_style, msi_style, rgb_style, infra_style = "", "", "", ""
     msi, mask,rgb = 14,15,12
     color_text = "text-primary"
@@ -291,17 +291,6 @@ def get_imgs_with_id(post, img_id):
         msi_style, rgb_style, mask_style, infra_style = color_text, color_text, color_text, color_text
     return msi_style, mask_style, rgb_style, infra_style, mask, msi, rgb, path
 
-@app.route("/viz/<int:post_id>/zoom/<int:zoom_size>/img/<int:zoom_id>")
-def viz_zoom_img(post_id, zoom_size, zoom_id):
-    if not current_user.is_authenticated:
-        return redirect(url_for('home'))
-    post = Post.query.get_or_404(post_id)
-    #if post.author != current_user:
-    #    abort(403)
-    zoom_msi_style, zoom_mask_style, zoom_rgb_style, zoom_infra_style, zoom_mask, zoom_msi, zoom_rgb, path_zoom = get_imgs_with_id(post, zoom_id)
-    msi_style, mask_style, rgb_style, infra_style, mask, msi, rgb, path_img = get_imgs_with_id(post, img_id)
-    return render_template('viz.html', title=post.title, kpis=post.kpis.split(";"),img_path = path_img, zoom_path = path_zoom, msi = msi, mask= mask, rgb= rgb,zoom_msi=zoom_msi, zoom_mask=zoom_mask, zoom_rgb= zoom_rgb, rgb_style=rgb_style, msi_style=msi_style, mask_style=mask_style,infra_style=infra_style,  zoom_msi_style = zoom_msi_style, zoom_mask_style=zoom_mask_style, zoom_rgb_style = zoom_rgb_style, zoom_infra_style = zoom_infra_style, img = img_id % 16, zoom_id = zoom_id %16 , zoom=zoom_size, post = post)
-
 @app.route("/viz/<int:post_id>/zoom/<int:zoom_size>")
 def viz_zoom(post_id, zoom_size):
     if not current_user.is_authenticated:
@@ -309,7 +298,7 @@ def viz_zoom(post_id, zoom_size):
     post = Post.query.get_or_404(post_id)
     #if post.author != current_user:
     #    abort(403)
-    return render_template('viz.html', title=post.title, kpis=post.kpis.split(";"),img_path = url_for ('static', filename= 'post_picture/' + post.msi), zoom_path = url_for ('static', filename= 'post_picture/' + post.msi), msi = 6, mask= 1, zoom_mask = 1, zoom_msi = 6, rgb_style= "", msi_style="text-primary", mask_style="", infra_style="",  zoom_msi_style = "text-primary", zoom_mask_style="", zoom_rgb_style = "", zoom_infra_style = "", img = 2, zoom_id = 2, zoom=zoom_size, post = post)
+    return render_template('viz.html', title=post.title, kpis=post.kpis.split(";"),img_path = url_for ('static', filename= 'post_picture/' + post.mask), zoom_path = url_for ('static', filename= 'post_picture/' + post.msi), msi = 6, mask= 1, zoom_mask = 1, zoom_msi = 6, rgb_style= "", msi_style="text-primary", mask_style="", infra_style="",  zoom_msi_style = "text-primary", zoom_mask_style="", zoom_rgb_style = "", zoom_infra_style = "", img = 2, zoom_id = 2, zoom=zoom_size, post = post)
 
 @app.route("/viz/<int:post_id>/img/<int:img_id>/zoom/<int:zoom_size>/img/<int:zoom_id>")
 def viz_img_zoom_img(post_id, zoom_size, img_id, zoom_id):
@@ -318,7 +307,7 @@ def viz_img_zoom_img(post_id, zoom_size, img_id, zoom_id):
     post = Post.query.get_or_404(post_id)
     #if post.author != current_user:
     #    abort(403)
-    zoom_msi_style, zoom_mask_style, zoom_rgb_style, zoom_infra_style, zoom_mask, zoom_msi, zoom_rgb, path_zoom = get_imgs_with_id(post, zoom_id)
+    zoom_msi_style, zoom_mask_style, zoom_rgb_style, zoom_infra_style, zoom_mask, zoom_msi, zoom_rgb, path_zoom = get_imgs_with_id(post, img_id)
     msi_style, mask_style, rgb_style, infra_style, mask, msi, rgb, path_img = get_imgs_with_id(post, img_id)
     return render_template('viz.html', title=post.title,kpis=post.kpis.split(";"), img_path = path_img, zoom_path = path_zoom, msi = msi, mask= mask, rgb= rgb, zoom_mask=zoom_mask, zoom_msi=zoom_msi, zoom_rgb= zoom_rgb, rgb_style=rgb_style, msi_style=msi_style, mask_style=mask_style, infra_style=infra_style,  zoom_msi_style = zoom_msi_style, zoom_mask_style=zoom_mask_style, zoom_rgb_style = zoom_rgb_style, zoom_infra_style = zoom_infra_style,  img = img_id % 16, zoom_id = zoom_id %16, zoom=zoom_size, post = post)
 
@@ -343,13 +332,13 @@ def viz_img(post_id, img_id):
     return render_template('viz.html', title=post.title,kpis=post.kpis.split(";"), img_path = path_img, zoom_path = path_img, msi = msi, mask= mask, rgb= rgb, zoom_mask = mask, zoom_msi = msi, rgb_style= rgb_style, msi_style=msi_style, mask_style=mask_style, infra_style=infra_style,  zoom_msi_style = msi_style, zoom_mask_style=mask_style, zoom_rgb_style = rgb_style, zoom_infra_style = infra_style,  img = img_id % 16, zoom_id = img_id %16, zoom=3, post = post)
 
 @app.route("/viz/<int:post_id>/img/<int:img_id>/img/<int:zoom_id>")
-def viz_img_img(post_id, img_id, zoom_id):
+def viz_img_img(post_id, img_id):
     if not current_user.is_authenticated:
         return redirect(url_for('home'))
     post = Post.query.get_or_404(post_id)
     #if post.author != current_user:
     #    abort(403)
-    zoom_msi_style, zoom_mask_style, zoom_rgb_style, zoom_infra_style, zoom_mask, zoom_msi, zoom_rgb, path_zoom = get_imgs_with_id(zoom_id)
+    zoom_msi_style, zoom_mask_style, zoom_rgb_style, zoom_infra_style, zoom_mask, zoom_msi, zoom_rgb, path_zoom = get_imgs_with_id(img_id)
     msi_style, mask_style, rgb_style, infra_style, mask, msi, rgb, path_img = get_imgs_with_id(post, img_id)
     return render_template('viz.html', title=post.title,kpis=post.kpis.split(";"), img_path = path_img, zoom_path = path_zoom, msi = msi, mask= mask,  rgb= rgb, zoom_msi=zoom_msi, zoom_mask=zoom_mask, zoom_rgb=zoom_rgb, rgb_style= rgb_style, msi_style=msi_style, mask_style=mask_style, infra_style = infra_style,  zoom_msi_style = zoom_msi_style, zoom_mask_style=zoom_mask_style, zoom_rgb_style = zoom_rgb_style, zoom_infra_style = zoom_infra_style,  img = img_id % 16, zoom_id = zoom_id %16, zoom=3, post =post)
 
