@@ -24,8 +24,35 @@ window.onload = function() {
       zoomable: true
   });
   document.getElementById("scale").innerHTML += Math.round(100/zoom) + " m²."
+  image_style = "width:80px;height:80px;padding:5px;border:1px solid black;border-radius: 10px 10px 10px 10px;";
+    {% if infra_style != "" %}
+        document.getElementById("infra").style = image_style;
+    {%endif %}
+    {% if mask_style != "" %}
+        document.getElementById("mask").style =image_style;
+    {%endif %}
+    {% if msi_style != "" %}
+        document.getElementById("msi").style = image_style;
+    {%endif %}
+    {% if rgb_style != "" %}
+        document.getElementById("rgb").style = image_style;
+    {%endif %}
+    {% if zoom_infra_style != "" %}
+        document.getElementById("zoom_infra").style = image_style;
+    {%endif %}
+    {% if zoom_mask_style != "" %}
+        document.getElementById("zoom_mask").style =image_style;
+    {%endif %}
+    {% if zoom_msi_style != "" %}
+        document.getElementById("zoom_msi").style = image_style;
+    {%endif %}
+    {% if zoom_rgb_style != "" %}
+        document.getElementById("zoom_rgb").style = image_style;
+    {%endif %}
 };
+
 </script>
+
 
 <article class="media content-section">
     <div class="list-group">
@@ -43,17 +70,43 @@ window.onload = function() {
           <div class="row">
             <div class="p-0 col-sm-5">
               <div> Main image </div>
-              <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
-              <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
-              <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:70px;" class="{{msi_style}} m-0 list-group-item list-group-item-action">Water stress</a>
-              <a href="/viz/{{post.id}}/img/{{img+rgb}}/zoom/{{zoom}}/img/{{zoom_id}}" style="width:100px;height:50px;" class="{{rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+                <div style="padding:3px"></div>
+              <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}">
+                  <img id="infra" title="Infrared channels" src="/static/picture/infrared.PNG" class="{{infra_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+              </a>
+                <div style="padding:3px"></div>
+
+              <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}">
+                  <img id="mask" title="Prediction" src="/static/picture/prediction.PNG" class="{{mask_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+              </a>
+                <div style="padding:3px"></div>
+              <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}">
+                <img id="msi" title="Water Stress" src="/static/picture/water_stress.png" class="{{msi_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+              </a>
+                <div style="padding:3px"></div>
+              <a href="/viz/{{post.id}}/img/{{img+rgb}}/zoom/{{zoom}}/img/{{zoom_id}}">
+                <img id="rgb" title="Picture" src="/static/picture/RGB.PNG" class="{{rgb_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+              </a>
             </div>
             <div class="p-0 col-md-5 offset-md-1">
               <div> Zoom image </div>
-              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+8}}" style="width:100px;height:50px;" class="{{zoom_infra_style}} m-0 list-group-item list-group-item-action">Infrared</a>
-              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_mask}}" style="width:100px;height:50px;" class="{{zoom_mask_style}} m-0 list-group-item list-group-item-action">Predicted</a>
-              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_msi}}" style="width:100px;height:70px;" class="{{zoom_msi_style}} m-0 list-group-item list-group-item-action">Water stress</a>
-              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_rgb}}" style="width:100px;height:50px;" class="{{zoom_rgb_style}} m-0 list-group-item list-group-item-action">RGB</a>
+                <div style="padding:3px"></div>
+              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+8}}">
+                <img id="zoom_infra" title="Infrared channels" src="/static/picture/infrared.PNG" class="{{zoom_infra_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px">
+              </a>
+                <div style="padding:3px"></div>
+              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_mask}}">
+                <img id="zoom_mask" title="Prediction" src="/static/picture/prediction.PNG" class="{{zoom_mask_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px">
+              </a>
+                <div style="padding:3px"></div>
+              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_msi}}">
+                <img id="zoom_msi" title="Water Stress" src="/static/picture/water_stress.png" class="{{zoom_msi_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px">
+              </a>
+                <div style="padding:3px"></div>
+              <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom}}/img/{{zoom_id+zoom_rgb}}">
+                <img id="zoom_rgb" title="Picture" src="/static/picture/RGB.PNG" class="{{zoom_rgb_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px">
+
+              </a>
             </div>
           </div>
         </div>
