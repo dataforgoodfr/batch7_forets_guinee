@@ -49,55 +49,57 @@ window.onload = function() {
         <img class = "rounded-circle article-img" src="{{url_for ('static', filename= 'profile_pics/' + post.author.image_file)}}">
         <br/>
         <br/>
-        <div> Zoom </div>
-        <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom+1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">+</a>
-        <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom-1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">-</a>
-        <br/>
-        <br/>
-        <div> Main image </div>
-        <div style="padding:3px"></div>
-        <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}">
-            <img id="infra" title="Infrared channels" src="/static/picture/infrared.PNG" class="{{infra_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
-        </a>
-        <div style="padding:3px"></div>
-
-        <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}">
-            <img id="mask" title="Prediction" src="/static/picture/prediction.PNG" class="{{mask_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
-        </a>
-        <div style="padding:3px"></div>
-        <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}">
-          <img id="msi" title="Water Stress" src="/static/picture/water_stress.png" class="{{msi_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
-        </a>
-        <div style="padding:3px"></div>
-        <a href="/viz/{{post.id}}/img/{{img+rgb}}/zoom/{{zoom}}/img/{{zoom_id}}">
-          <img id="rgb" title="Picture" src="/static/picture/RGB.PNG" class="{{rgb_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
-        </a>
-        <br/>
-        <br/>
-        <div class="m-0" style="width:220px">
-          {% for kpi in kpis %}
-          <div style="text-break"> {{kpi}} </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-    <div class="media-body">
-        <div class="article-metadata">
+          <div class="article-metadata">
         <a class="mr-2" href="#">{{ post.author.username }}</a>
         <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
         </div>
         <h2 class= "article-title">{{ post.title }}</h2>
         <div>
-          {% if msi_style !="" or zoom_msi_style != "" %}
-            <div> Hydric stress: Lighter pixels indicate higher water stress in forests.  </div>
-          {% endif %}
-          {% if infra_style !="" or zoom_infra_style != "" %}
-            <div> Infrared: Red hues show broadleaf or/and healthier vegetation. </div>
-          {% endif %}
-          {% if rgb_style !="" or zoom_rgb_style != "" %}
-            <div> RGB: visualization alone does not allow detection of degradation patterns in tropical forests.  </div>
-          {% endif %}
+          {% for kpi in kpis %}
+          <div style="text-break"> {{kpi}} </div>
+          {% endfor %}
         </div>
+        <div> Zoom </div>
+        <table>
+            <th><a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom+1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">+</a></th>
+            <th><a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom-1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">-</a></th>
+        </table>
+        <br/>
+        <br/>
+        <table>
+        <tr><td>
+            <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}">
+            <img id="mask" title="Prediction" src="/static/picture/prediction.PNG" class="{{mask_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+        </a>
+
+        <div style="padding:3px"></div>
+        </td>
+        <td>
+            <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}">
+            <img id="infra" title="Infrared: Red hues show broadleaf or/and healthier vegetation" src="/static/picture/infrared.PNG" class="{{infra_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+        </a>
+        <div style="padding:3px">
+        </div>
+        </td></tr>
+            <tr><td>
+                <a href="/viz/{{post.id}}/img/{{img+rgb}}/zoom/{{zoom}}/img/{{zoom_id}}">
+          <img id="rgb" title="Picture" src="/static/picture/RGB.PNG" class="{{rgb_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+        </a>
+             </td><td>
+
+                <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}">
+             <img id="msi" title="Hydric stress: Lighter pixels indicate higher water stress in forests" src="/static/picture/water_stress.png" class="{{msi_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+        </a>
+            </td></tr>
+        </table>
+        <br/>
+        <br/>
+          <img src="{{url_for ('static', filename= 'post_picture/' + post.barplot)}}" style="width:220px;height:440px">
+      </div>
+    </div>
+    <div class="media-body">
+
+
         <div>
           <div class="magnifier-thumb-wrapper">
               <img class="img-fluid" alt="Responsive image" id="thumb-inside" src="{{img_path}}" data-mode="inside" data-zoomable="true">

@@ -14,7 +14,7 @@ def get_bar_plot(output, hex0, hex1, hex2):
     nb_def = np.sum(output == 2) *100/ nb_total
     nb_other = (np.sum(output == 3) + np.sum(output == 0))*100 / nb_total
     y = [nb_vir, nb_def, nb_other]
-    y_text = ["%.2f" % nb_vir, "%.2f" % nb_def, "%.2f" % nb_other]
+    y_text = ["%.1f" % nb_vir, "%.1f" % nb_def, "%.1f" % nb_other]
 
     plt.figure(num=None, figsize=(4, 8), dpi=300)
     ax = plt.subplot(111)
@@ -27,7 +27,7 @@ def get_bar_plot(output, hex0, hex1, hex2):
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     for i in range(0,3):
-        ax.text(x=i-0.2, y =y[i]+0.01, s=f"{y_text[i]}" , fontsize=15)
+        ax.text(x=i-0.35, y =y[i]+0.03, s=f"{y_text[i]}%" , fontsize=15)
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
@@ -91,11 +91,9 @@ def get_kpis(output):
     nb_vir_string = "%.2f" % (nb_vir/nb_total*100)
     nb_def_string = "%.2f" % (nb_def/nb_total*100)
     nb_other_string = "%.2f" %(nb_other/nb_total*100)
-    result = "Date of submission: " + str(datetime.datetime.now().date()) + \
-             " ; Total area: "+ str(int(nb_total/10000)) + "km² ; " \
-              "Intact forest: " + nb_vir_string + \
-              "% ; Degraded forest: " + nb_def_string + "% ; " \
-              "Other: "  + nb_other_string + "%"
+    result = "Submission date: " + str(datetime.datetime.now().date()) + \
+             " ;  Total area: "+ str(int(nb_total/10000)) + "km² ; " \
+
     return result
 
 def generate(input, output, hex0, hex1, hex2):
