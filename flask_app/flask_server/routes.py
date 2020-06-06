@@ -96,6 +96,12 @@ def save_picture_post(form_picture, name):
     form_picture.save(picture_path)
     return picture_fn
 
+def save_buf_post(buf, name):
+    image = Image.open(buf)
+    picture_fn = save_picture_post(image, name)
+    buf.close()
+    return picture_fn
+
 @app.route("/post/new",  methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -121,14 +127,14 @@ def new_post():
             tiff_path =  os.path.join(app.root_path, 'static/post_picture', tiff_name)
             raster.export(output, dataSource, tiff_path, dtype='int', bands='all')
 
-            mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis = generate(input, output, form.color1.data, form.color2.data, form.color3.data)
+            mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis, barplot = generate(input, output, form.color1.data, form.color2.data, form.color3.data)
             post = Post(title= form.title.data, tiff = tiff_name, content=form.content.data, mask=save_picture_post(mask, "mask.png"),
             msi=save_picture_post(msi, "msi.png"), rgb=save_picture_post(rgb, "rgb.png"), mask_msi=save_picture_post(mask_msi, "mask_msi.png"),
             infra=save_picture_post(infra, "infra.png"), mask_rgb=save_picture_post(mask_rgb, "mask_rgb.png"), msi_rgb=save_picture_post(msi_rgb, "msi_rgb.png"),
             mask_infra=save_picture_post(mask_infra, "mask_infra.png"), rgb_infra=save_picture_post(rgb_infra, "rgb_infra.png"),
             msi_infra=save_picture_post(msi_infra, "msi_infra.png"), mask_msi_infra=save_picture_post(mask_msi_infra, "mask_msi_infra.png"),
             mask_rgb_infra=save_picture_post(mask_rgb_infra, "mask_rgb_infra.png"), msi_rgb_infra=save_picture_post(msi_rgb_infra, "msi_rgb_infra.png"),
-            msi_rgb_mask=save_picture_post(msi_rgb_mask, "msi_rgb_mask.png"), all_imgs =save_picture_post(all, "all.png"), kpis =  kpis, author= current_user)
+            msi_rgb_mask=save_picture_post(msi_rgb_mask, "msi_rgb_mask.png"), all_imgs =save_picture_post(all, "all.png"), kpis =  kpis, barplot=save_buf_post(barplot,"barplot.png"), author= current_user)
             os.remove(os.path.join(app.root_path, 'static', 'post_picture', filename))
 
         else :
