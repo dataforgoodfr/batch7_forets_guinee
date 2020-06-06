@@ -20,6 +20,7 @@ create table Post (
   msi_rgb_mask VARCHAR(20),
   all_imgs VARCHAR(20),
   kpis VARCHAR(20),
+  barplot VARCHAR(20),
   content TEXT NOT NULL,
   user_id INTEGER NOT NULL,
   PRIMARY KEY (id),

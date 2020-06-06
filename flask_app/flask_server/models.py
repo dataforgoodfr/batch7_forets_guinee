@@ -36,5 +36,6 @@ class Post(db.Model):
     msi_rgb_mask = db.Column(db.String(20), nullable=False)
     all_imgs = db.Column(db.String(20), nullable=False)
     kpis = db.Column(db.String(20), nullable=False)
+    barplot = db.Column(db.String(20), nullable=False)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)

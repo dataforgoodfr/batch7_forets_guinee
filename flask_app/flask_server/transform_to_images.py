@@ -2,8 +2,37 @@ import numpy as np
 from PIL import Image, ImageFont, ImageDraw
 import datetime
 import os
+import io
+import matplotlib.pyplot as plt
+
 
 ######################### Fonctions auxiliaires #########################
+
+def get_bar_plot(output, hex0, hex1, hex2):
+    nb_total = np.shape(output)[0] * np.shape(output)[1]
+    nb_vir = np.sum(output == 1) * 100 / nb_total
+    nb_def = np.sum(output == 2) *100/ nb_total
+    nb_other = (np.sum(output == 3) + np.sum(output == 0))*100 / nb_total
+    y = [nb_vir, nb_def, nb_other]
+    y_text = ["%.1f" % nb_vir, "%.1f" % nb_def, "%.1f" % nb_other]
+
+    plt.figure(num=None, figsize=(4, 8), dpi=300)
+    ax = plt.subplot(111)
+    ax.bar(x=[0,1,2], height=y, color=[hex0, hex1, hex2])
+    plt.xticks([0,1,2], ["Intact\n Forest", "Degraded\n Forest", "Other"])
+    ax.tick_params(axis='x',  labelsize=15)
+    plt.ylim(0,np.max(y) + 0.1)
+    plt.yticks([])
+    ax.spines['left'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    for i in range(0,3):
+        ax.text(x=i-0.35, y =y[i]+0.03, s=f"{y_text[i]}%" , fontsize=15)
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+
+    return buf
 
 def normalize_img(img):
   scale = 1/(np.max(img) - np.min(img))
@@ -59,10 +88,17 @@ def get_kpis(output):
     nb_def = np.sum(output == 2)
     nb_other = np.sum(output == 3) + np.sum(output == 0)
     nb_total = nb_vir + nb_def + nb_other
-    return "Date of submission: " + str(datetime.datetime.now().date()) + " ; Total area: "+ str(int(nb_total/10000)) + "km² ; Intact forest: " + str(nb_vir/nb_total*100)[:4] + "% ; Degraded forest: "+ str(nb_def/nb_total*100)[:4] + "% ; Other: " + str(nb_other/nb_total*100)[:4]+"%"
+    nb_vir_string = "%.2f" % (nb_vir/nb_total*100)
+    nb_def_string = "%.2f" % (nb_def/nb_total*100)
+    nb_other_string = "%.2f" %(nb_other/nb_total*100)
+    result = "Submission date: " + str(datetime.datetime.now().date()) + \
+             " ;  Total area: "+ str(int(nb_total/10000)) + "km² ; " \
+
+    return result
 
 def generate(input, output, hex0, hex1, hex2):
     kpis = get_kpis(output)
+    bar_plot = get_bar_plot(output, hex0, hex1, hex2)
     mask = convert_mask_to_image(output, str(hex0), str(hex1), str(hex2))
     msi = convert_image_msi(input)
     rgb = convert_image_rgb(input)
@@ -83,6 +119,7 @@ def generate(input, output, hex0, hex1, hex2):
     for im in all_images:
         images_with_legend.append(add_legend(im))
     images_with_legend.append(kpis)
+    images_with_legend.append(bar_plot)
     return images_with_legend
 
 
@@ -103,7 +140,6 @@ def create_legend_bar(width):
                 label[i][j + 50] = 0
     path_to_font = os.path.join(os.path.join("flask_server","static"), "fonts")
     font = ImageFont.truetype(os.path.join(path_to_font, "arial.ttf"), int(width_step / 5))
-    print(os.path.join(path_to_font, "arial.ttf"))
     img = Image.fromarray(label.astype('uint8'), 'L')
     draw = ImageDraw.Draw(img)
     draw.text((25 + (0 * width_step), half_height + 6 * interval), str(0), font=font)
