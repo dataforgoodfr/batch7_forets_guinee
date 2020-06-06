@@ -54,30 +54,24 @@ window.onload = function() {
         <a href="/viz/{{post.id}}/img/{{img}}/zoom/{{zoom-1}}/img/{{zoom_id}}" style="width:50px;height:50px;" class="m-0 list-group-item list-group-item-action">-</a>
         <br/>
         <br/>
-        <div class="container" style="width:220px;">
-          <div class="row">
-            <div class="p-0 col-sm-5">
-              <div> Main image </div>
-                <div style="padding:3px"></div>
-              <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}">
-                  <img id="infra" title="Infrared channels" src="/static/picture/infrared.PNG" class="{{infra_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
-              </a>
-                <div style="padding:3px"></div>
+        <div> Main image </div>
+        <div style="padding:3px"></div>
+        <a href="/viz/{{post.id}}/img/{{img+8}}/zoom/{{zoom}}/img/{{zoom_id}}">
+            <img id="infra" title="Infrared channels" src="/static/picture/infrared.PNG" class="{{infra_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+        </a>
+        <div style="padding:3px"></div>
 
-              <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}">
-                  <img id="mask" title="Prediction" src="/static/picture/prediction.PNG" class="{{mask_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
-              </a>
-                <div style="padding:3px"></div>
-              <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}">
-                <img id="msi" title="Water Stress" src="/static/picture/water_stress.png" class="{{msi_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
-              </a>
-                <div style="padding:3px"></div>
-              <a href="/viz/{{post.id}}/img/{{img+rgb}}/zoom/{{zoom}}/img/{{zoom_id}}">
-                <img id="rgb" title="Picture" src="/static/picture/RGB.PNG" class="{{rgb_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
-              </a>
-            </div>
-          </div>
-        </div>
+        <a href="/viz/{{post.id}}/img/{{img+mask}}/zoom/{{zoom}}/img/{{zoom_id}}">
+            <img id="mask" title="Prediction" src="/static/picture/prediction.PNG" class="{{mask_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+        </a>
+        <div style="padding:3px"></div>
+        <a href="/viz/{{post.id}}/img/{{img+msi}}/zoom/{{zoom}}/img/{{zoom_id}}">
+          <img id="msi" title="Water Stress" src="/static/picture/water_stress.png" class="{{msi_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+        </a>
+        <div style="padding:3px"></div>
+        <a href="/viz/{{post.id}}/img/{{img+rgb}}/zoom/{{zoom}}/img/{{zoom_id}}">
+          <img id="rgb" title="Picture" src="/static/picture/RGB.PNG" class="{{rgb_style}} m-0 list-group-item-action" style="width:80px;height:80px;padding:5px;">
+        </a>
         <br/>
         <br/>
         <div class="m-0" style="width:220px">
