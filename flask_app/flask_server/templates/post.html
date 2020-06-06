@@ -11,7 +11,7 @@
         <h2 class= "article-title">{{ post.title }}</h2>
         <p class="article-content">{{ post.content }}</p>
         {% if post.mask %}
-        <p class="article-content">You can <a href="/viz/{{post.id}}">better visualise the maps</a>, <a href="{{url_for ('static', filename= 'post_picture/' + post.tiff)}}" download="prediction_mask_image.tif">download the .tif prediction file</a> or directly click on the images below to download them.</p>
+        <p class="article-content">You can <a href="/viz/{{post.id}}/img/1/zoom/3/img/17">better visualise the maps</a>, <a href="{{url_for ('static', filename= 'post_picture/' + post.tiff)}}" download="prediction_mask_image.tif">download the .tif prediction file</a> or directly click on the images below to download them.</p>
         <div class="container">
           <div class="row">
               <a class="col-sm" align="center" href="{{url_for ('static', filename= 'post_picture/' + post.mask)}}" download="prediction_mask">
