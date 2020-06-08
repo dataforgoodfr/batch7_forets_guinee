@@ -189,7 +189,7 @@ def update_post(post_id):
             output = predict_image(input, form.country.data)
             print("Finished Output")
 
-            tiff_name = random_hex + ".tif"
+            tiff_name = random_hex + "_prediction.tif"
             tiff_path =  os.path.join(app.root_path, 'static/post_picture', tiff_name)
             raster.export(output, dataSource, tiff_path, dtype='int', bands='all')
 
