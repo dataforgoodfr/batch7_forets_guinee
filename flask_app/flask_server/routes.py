@@ -126,6 +126,8 @@ def new_post():
             tiff_name = random_hex + ".tif"
             tiff_path =  os.path.join(app.root_path, 'static/post_picture', tiff_name)
             raster.export(output, dataSource, os.path.join('flask_server', 'static', 'post_picture', tiff_name), dtype='int', bands='all')
+            print(os.path.join('flask_server', 'static', 'post_picture', tiff_name))
+            print(tiff_path)
 
             mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis, barplot = generate(input, output, form.color1.data, form.color2.data, form.color3.data)
             post = Post(title= form.title.data, tiff = tiff_path, content=form.content.data, mask=save_picture_post(mask, "mask.png"),
