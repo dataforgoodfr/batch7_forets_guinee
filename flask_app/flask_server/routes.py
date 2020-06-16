@@ -124,11 +124,11 @@ def new_post():
             print("Finished Output")
 
             tiff_name = random_hex + ".tif"
-            tiff_path =  os.path.join(app.root_path, 'static/post_picture', tiff_name)
+            tiff_path =  os.path.join('flask_server', 'static/post_picture', tiff_name)
             raster.export(output, dataSource, tiff_path, dtype='int', bands='all')
             
             mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis, barplot = generate(input, output, form.color1.data, form.color2.data, form.color3.data)
-            post = Post(title= form.title.data, tiff = os.path.join('static/post_picture', tiff_name), content=form.content.data, mask=save_picture_post(mask, "mask.png"),
+            post = Post(title= form.title.data, tiff = tiff_name, content=form.content.data, mask=save_picture_post(mask, "mask.png"),
             msi=save_picture_post(msi, "msi.png"), rgb=save_picture_post(rgb, "rgb.png"), mask_msi=save_picture_post(mask_msi, "mask_msi.png"),
             infra=save_picture_post(infra, "infra.png"), mask_rgb=save_picture_post(mask_rgb, "mask_rgb.png"), msi_rgb=save_picture_post(msi_rgb, "msi_rgb.png"),
             mask_infra=save_picture_post(mask_infra, "mask_infra.png"), rgb_infra=save_picture_post(rgb_infra, "rgb_infra.png"),
@@ -190,11 +190,11 @@ def update_post(post_id):
             print("Finished Output")
 
             tiff_name = random_hex + ".tif"
-            tiff_path =  os.path.join(app.root_path, 'static/post_picture', tiff_name)
+            tiff_path =  os.path.join('flask_server', 'static/post_picture', tiff_name)
             raster.export(output, dataSource, tiff_path, dtype='int', bands='all')
 
             mask, msi, rgb, infra, mask_msi, mask_rgb, msi_rgb, mask_infra, rgb_infra, msi_infra, mask_msi_infra, mask_rgb_infra, msi_rgb_infra, msi_rgb_mask, all, kpis = generate(input, output, form.color1, form.color2, form.color3)
-            post.tiff = os.path.join('static/post_picture', tiff_name)
+            post.tiff = tiff_name
             post.mask=save_picture_post(mask, "mask.png")
             post.msi=save_picture_post(msi, "msi.png")
             post.rgb=save_picture_post(rgb, "rgb.png")
